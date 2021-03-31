@@ -1,9 +1,5 @@
-/bazel-Bazel_with_GTest
-/bazel-bin
-/bazel-genfiles
-/bazel-out
-/bazel-testlogs
-/bazel-template
 /bazel-*
+# /.vscode
+/.idea
 /opencv
 .DS_Store
