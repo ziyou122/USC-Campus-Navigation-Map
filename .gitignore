@@ -1,5 +1,5 @@
 /bazel-*
-# /.vscode
+/.vscode
 /.idea
 /opencv
 .DS_Store

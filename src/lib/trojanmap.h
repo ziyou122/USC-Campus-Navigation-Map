@@ -9,22 +9,28 @@
 
 // A Node is the location of one point in the map.
 class Node {
-  public:
-    Node(){};
-    Node(const Node &n){id = n.id; lat = n.lat; lon = n.lon; name = n.name; neighbors = n.neighbors;};
-    std::string id;    // A unique id assign to each point
-    double lat;        // Latitude
-    double lon;        // Longitude
-    std::string name;  // Name of the location. E.g. "Bank of America".
-    std::vector<std::string>
-        neighbors;  // List of the ids of all neighbor points.
+ public:
+  std::string id;                      // A unique id assigned to each point
+  double lat;                          // Latitude
+  double lon;                          // Longitude
+  std::string name;                    // Name of the location
+  std::vector<std::string> neighbors;  // List of the ids of all neighbor points
+
+  Node(){};
+  Node(const Node &n) {
+    id = n.id;
+    lat = n.lat;
+    lon = n.lon;
+    name = n.name;
+    neighbors = n.neighbors;
+  }
 };
 
 class TrojanMap {
  public:
-   // A map of ids to Nodes.
+  // A map of ids to Nodes.
   std::map<std::string, Node> data;
-  
+
   //-----------------------------------------------------
   // TODO: You do not and should not change the following functions:
 
@@ -93,15 +99,13 @@ class TrojanMap {
 
   // Given the name of two locations, it should return the **ids** of the nodes
   // on the shortest path.
-  std::vector<std::string> CalculateShortestPath_Dijkstra(std::string location1_name,
-                                                 std::string location2_name);
-  std::vector<std::string> CalculateShortestPath_Bellman_Ford(std::string location1_name,
-                                                 std::string location2_name);
+  std::vector<std::string> CalculateShortestPath_Dijkstra(std::string location1_name, std::string location2_name);
+  std::vector<std::string> CalculateShortestPath_Bellman_Ford(std::string location1_name, std::string location2_name);
 
   // Given CSV filename, it read and parse locations data from CSV file,
   // and return locations vector for topological sort problem.
   std::vector<std::string> ReadLocationsFromCSVFile(std::string locations_filename);
-  
+
   // Given CSV filenames, it read and parse dependencise data from CSV file,
   // and return dependencies vector for topological sort problem.
   std::vector<std::vector<std::string>> ReadDependenciesFromCSVFile(std::string dependencies_filename);
@@ -117,10 +121,8 @@ class TrojanMap {
   // and the second member is the reordered vector of points.
   // (Notice that we don't find the optimal answer. You can return an estimated
   // path.)
-  std::pair<double, std::vector<std::vector<std::string>>> TravellingTrojan(
-      std::vector<std::string> &location_ids);
+  std::pair<double, std::vector<std::vector<std::string>>> TravellingTrojan(std::vector<std::string> &location_ids);
 
-  
   std::pair<double, std::vector<std::vector<std::string>>> TravellingTrojan_2opt(
       std::vector<std::string> &location_ids);
 
@@ -128,7 +130,7 @@ class TrojanMap {
   // cycle or not in this subgraph.
   // vector square has 4 elements: left/right/top/bottom bound in order.
   bool CycleDetection(std::vector<double> &square);
-  
+
   //----------------------------------------------------- User-defined functions
 };
 
