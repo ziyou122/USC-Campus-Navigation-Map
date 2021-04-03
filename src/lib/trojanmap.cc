@@ -7,22 +7,20 @@
 #include <time.h>
 
 #include <algorithm>
+#include <cctype>
+#include <chrono>
+#include <cmath>
 #include <fstream>
+#include <iostream>
 #include <locale>
 #include <map>
 #include <queue>
 #include <sstream>
+#include <stack>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
-// #include <bits/stdc++.h>
-#include <cctype>
-#include <chrono>
-#include <cmath>
-#include <iostream>
-#include <stack>
-#include <unordered_set>
 
 #include "opencv2/core.hpp"
 #include "opencv2/highgui.hpp"
@@ -546,10 +544,7 @@ double TrojanMap::CalculateDistance(const Node &a, const Node &b) {
   // dlat = lat2 - lat1;
   // a = (sin(dlat / 2)) ^ 2 + cos(lat1) * cos(lat2) * (sin(dlon / 2)) ^ 2;
   // c = 2 * arcsin(min(1, sqrt(a)));
-  // distances = 3961 * c;
-
-  // where 3961 is the approximate radius of the earth at the latitude of
-  // Washington, D.C., in miles
+  // distances = 3961 * c; where 3961 is the approximate radius of the earth at the latitude of Washington D.C. in miles
   double dlon = (b.lon - a.lon) * M_PI / 180.0;
   double dlat = (b.lat - a.lat) * M_PI / 180.0;
   double p = pow(sin(dlat / 2), 2.0) + cos(a.lat * M_PI / 180.0) * cos(b.lat * M_PI / 180.0) * pow(sin(dlon / 2), 2.0);
@@ -565,6 +560,9 @@ double TrojanMap::CalculateDistance(const Node &a, const Node &b) {
  */
 double TrojanMap::CalculatePathLength(const vector<string> &path) {
   double sum = 0;
+  for (int i = 0; i < path.size() - 1; i++) {
+    sum += CalculateDistance(data[path[i]], data[path[i + 1]]);
+  }
   return sum;
 }
 
@@ -687,8 +685,49 @@ vector<string> TrojanMap::DeliveringTrojan(vector<string> &locations, vector<vec
  * to get final path
  */
 pair<double, vector<vector<string>>> TrojanMap::TravellingTrojan(vector<string> &location_ids) {
-  pair<double, vector<vector<string>>> results;
-  return results;
+  vector<vector<string>> path;
+  vector<string> cur_path;
+  double min_dis = 0, cur_dis = 0;
+  TravellingTrojan_(location_ids, path, cur_path, cur_dis, min_dis);
+  return make_pair(min_dis, path);
+}
+
+void TrojanMap::TravellingTrojan_(vector<string> &ids, vector<vector<string>> &paths, vector<string> &cur_path,
+                                  double &cur_dis, double &min_dis) {
+  // each cur_path starts from ids[0]
+  if (cur_path.empty()) {
+    cur_dis = 0;
+    cur_path.push_back(ids[0]);
+  }
+
+  // each cur_path ends at ids[0]
+  if (cur_path.size() == ids.size()) {
+    double delta_dis = CalculateDistance(data[cur_path.back()], data[ids[0]]);
+    if (min_dis == 0 || cur_dis + delta_dis < min_dis) {
+      min_dis = cur_dis + delta_dis;
+      cur_path.push_back(ids[0]);
+      paths.push_back(cur_path);  // save cur_path to path in descending order
+      cur_path.pop_back();
+    }
+    return;
+  }
+
+  // early backtracking
+  if (min_dis && cur_dis >= min_dis) {
+    return;
+  }
+
+  // iterate children
+  for (int i = 1; i < ids.size(); i++) {
+    if (find(cur_path.begin(), cur_path.end(), ids[i]) == cur_path.end()) {
+      double delta_dis = CalculateDistance(data[cur_path.back()], data[ids[i]]);
+      cur_dis += delta_dis;
+      cur_path.push_back(ids[i]);
+      TravellingTrojan_(ids, paths, cur_path, cur_dis, min_dis);
+      cur_path.pop_back();
+      cur_dis -= delta_dis;
+    }
+  }
 }
 
 pair<double, vector<vector<string>>> TravellingTrojan_2opt(vector<string> &location_ids) {

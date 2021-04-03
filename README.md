@@ -77,7 +77,12 @@ Instructor: Arash Saifhashemi
 
 - ### Qt
 
-  See https://www.qt.io/download
+  See https://www.qt.io/download  
+
+  ```shell
+  sudo apt update
+  sudo apt install libglu1-mesa-dev
+  ```
 
 
 ## Directory Description
@@ -85,13 +90,12 @@ Instructor: Arash Saifhashemi
 `./bazel-*`			GoogleTest output files  
 `./opencv`			OpenCV source files  
 `./qt`				Qt source files  
-`./release`			Released executables  
 `./src`				C++ source files  
 `./tests`			GoogleTest files  
 `./ncurses.BUILD`	ncurses build file  
 `./opencv.BUILD`	OpenCV build file  
 `./WORKSPACE`		bazel build file  
 
-## Reference
+## Reference  
 
-Project Guidance: https://github.com/hongshuochen/2021Spring_TrojanMap/blob/master/README.md
+2-opt: http://cs.indstate.edu/~zeeshan/aman.pdf

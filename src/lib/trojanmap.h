@@ -7,14 +7,16 @@
 #include <map>
 #include <vector>
 
+using namespace std;
+
 // A Node is the location of one point in the map.
 class Node {
  public:
-  std::string id;                      // A unique id assigned to each point
-  double lat;                          // Latitude
-  double lon;                          // Longitude
-  std::string name;                    // Name of the location
-  std::vector<std::string> neighbors;  // List of the ids of all neighbor points
+  string id;                 // A unique id assigned to each point
+  double lat;                // Latitude
+  double lon;                // Longitude
+  string name;               // Name of the location
+  vector<string> neighbors;  // List of the ids of all neighbor points
 
   Node(){};
   Node(const Node &n) {
@@ -29,7 +31,7 @@ class Node {
 class TrojanMap {
  public:
   // A map of ids to Nodes.
-  std::map<std::string, Node> data;
+  map<string, Node> data;
 
   //-----------------------------------------------------
   // TODO: You do not and should not change the following functions:
@@ -45,75 +47,74 @@ class TrojanMap {
 
   // Visualization
   // Given a location id, plot the point on the map.
-  void PlotPoint(std::string id);
+  void PlotPoint(string id);
 
   // Given a lat and lon, plot the point on the map.
   void PlotPoint(double lat, double lon);
 
   // Given a vector of location ids draws the path (connects the points)
-  void PlotPath(std::vector<std::string> &location_ids);
+  void PlotPath(vector<string> &location_ids);
 
   // Given a vector of location ids draws the points on the map (no path).
-  void PlotPoints(std::vector<std::string> &location_ids);
+  void PlotPoints(vector<string> &location_ids);
 
   // Given a vector of location ids draws the points on the map with path.
-  void PlotPointsandEdges(std::vector<std::string> &location_ids, std::vector<double> &square);
+  void PlotPointsandEdges(vector<string> &location_ids, vector<double> &square);
 
   // Given a vector of location ids draws the points with their order on the map (no path).
-  void PlotPointsOrder(std::vector<std::string> &location_ids);
+  void PlotPointsOrder(vector<string> &location_ids);
 
   // Create the videos of the progress to get the path
-  void CreateAnimation(std::vector<std::vector<std::string>>);
+  void CreateAnimation(vector<vector<string>>);
 
   // Transform the location to the position on the map
-  std::pair<double, double> GetPlotLocation(double lat, double lon);
+  pair<double, double> GetPlotLocation(double lat, double lon);
   //-----------------------------------------------------
   // TODO: Implement these functions and create unit tests for them:
 
   // Get the Latitude of a Node given its id.
-  double GetLat(std::string id);
+  double GetLat(string id);
 
   // Get the Longitude of a Node given its id.
-  double GetLon(std::string id);
+  double GetLon(string id);
 
   // Get the name of a Node given its id.
-  std::string GetName(std::string id);
+  string GetName(string id);
 
   // Get the Node given its name.
-  Node GetNode(std::string name);
+  Node GetNode(string name);
 
   // Get the neighbor ids of a Node.
-  std::vector<std::string> GetNeighborIDs(std::string id);
+  vector<string> GetNeighborIDs(string id);
 
   // Get the distance between 2 nodes.
   double CalculateDistance(const Node &a, const Node &b);
 
   // Calculates the total path length for the locations inside the vector.
-  double CalculatePathLength(const std::vector<std::string> &path);
+  double CalculatePathLength(const vector<string> &path);
 
   // Returns a vector of names given a partial name.
-  std::vector<std::string> Autocomplete(std::string name);
+  vector<string> Autocomplete(string name);
 
   // Returns lat and long of the given the name.
-  std::pair<double, double> GetPosition(std::string name);
+  pair<double, double> GetPosition(string name);
 
   // Given the name of two locations, it should return the **ids** of the nodes
   // on the shortest path.
-  std::vector<std::string> CalculateShortestPath_Dijkstra(std::string location1_name, std::string location2_name);
-  std::vector<std::string> CalculateShortestPath_Bellman_Ford(std::string location1_name, std::string location2_name);
+  vector<string> CalculateShortestPath_Dijkstra(string location1_name, string location2_name);
+  vector<string> CalculateShortestPath_Bellman_Ford(string location1_name, string location2_name);
 
   // Given CSV filename, it read and parse locations data from CSV file,
   // and return locations vector for topological sort problem.
-  std::vector<std::string> ReadLocationsFromCSVFile(std::string locations_filename);
+  vector<string> ReadLocationsFromCSVFile(string locations_filename);
 
   // Given CSV filenames, it read and parse dependencise data from CSV file,
   // and return dependencies vector for topological sort problem.
-  std::vector<std::vector<std::string>> ReadDependenciesFromCSVFile(std::string dependencies_filename);
+  vector<vector<string>> ReadDependenciesFromCSVFile(string dependencies_filename);
 
   // Given a vector of location names, it should return a sorting of nodes
   // that satisfies the given dependencies.
-  std::vector<std::string> DeliveringTrojan(std::vector<std::string> &location_names,
-                                            std::vector<std::vector<std::string>> &dependencies);
+  vector<string> DeliveringTrojan(vector<string> &location_names, vector<vector<string>> &dependencies);
 
   // Given a vector of location ids, it should reorder them such that the path
   // that covers all these points has the minimum length.
@@ -121,15 +122,16 @@ class TrojanMap {
   // and the second member is the reordered vector of points.
   // (Notice that we don't find the optimal answer. You can return an estimated
   // path.)
-  std::pair<double, std::vector<std::vector<std::string>>> TravellingTrojan(std::vector<std::string> &location_ids);
+  pair<double, vector<vector<string>>> TravellingTrojan(vector<string> &location_ids);
+  void TravellingTrojan_(vector<string> &ids, vector<vector<string>> &path, vector<string> &cur_path, double &cur_dis,
+                         double &min_dis);
 
-  std::pair<double, std::vector<std::vector<std::string>>> TravellingTrojan_2opt(
-      std::vector<std::string> &location_ids);
+  pair<double, vector<vector<string>>> TravellingTrojan_2opt(vector<string> &location_ids);
 
   // Given a subgraph specified by a square-shape area, determine whether there is a
   // cycle or not in this subgraph.
   // vector square has 4 elements: left/right/top/bottom bound in order.
-  bool CycleDetection(std::vector<double> &square);
+  bool CycleDetection(vector<double> &square);
 
   //----------------------------------------------------- User-defined functions
 };
