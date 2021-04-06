@@ -82,7 +82,14 @@ Instructor: Arash Saifhashemi
   ```shell
   sudo apt update
   sudo apt install libglu1-mesa-dev
+
+  cd ~/Qt/Tools/QtCreator/lib/Qt/plugins/sqldrivers
+  
   ```
+
+  ### MySql  
+
+  See https://dev.mysql.com/downloads/repo/apt/
 
 
 ## Directory Description

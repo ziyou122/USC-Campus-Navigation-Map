@@ -125,8 +125,6 @@ TEST(TrojanMapTest, TSP) {
   EXPECT_EQ(flag, true);
 }
 
-/*
-
 // Test TSP function 2
 TEST(TrojanMapTest, TSP2) {
   TrojanMap m;
@@ -169,6 +167,8 @@ TEST(TrojanMapTest, TSP3) {
 
   EXPECT_EQ(flag, true);
 }
+
+/*
 
 // Test cycle detection function
 TEST(TrojanMapTest, CycleDetection) {
