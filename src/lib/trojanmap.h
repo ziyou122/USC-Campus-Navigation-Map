@@ -84,6 +84,8 @@ class TrojanMap {
   // Get the Node given its name.
   Node GetNode(string name);
 
+  string GetID(const string &name);
+
   // Get the neighbor ids of a Node.
   vector<string> GetNeighborIDs(string id);
 

@@ -8,6 +8,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <cfloat>
 #include <chrono>
 #include <cmath>
 #include <fstream>
@@ -613,6 +614,14 @@ Node TrojanMap::GetNode(string name) {
   return n;
 }
 
+string TrojanMap::GetID(const string &name) {
+  for (auto &pr : data) {
+    if (pr.second.name == name) {
+      return pr.first;
+    }
+  }
+}
+
 /**
  * CalculateShortestPath_Dijkstra: Given 2 locations, return the shortest path which is a
  * list of id.
@@ -622,7 +631,56 @@ Node TrojanMap::GetNode(string name) {
  * @return {vector<string>}       : path
  */
 vector<string> TrojanMap::CalculateShortestPath_Dijkstra(string location1_name, string location2_name) {
+  unordered_set<string> visited;
+  unordered_map<string, pair<string, double>> dis(data.size());  // distance map: <ID, <predecessor ID, distance>
+
+  string id1 = GetID(location1_name), id2 = GetID(location2_name);
+
+  // initialization
+  for (auto &pr : data) {
+    dis[pr.first] = make_pair("", DBL_MAX);
+  }
+  dis[id1] = make_pair("", 0);
+  for (auto &id : data[id1].neighbors) {
+    dis[id] = make_pair(id1, CalculateDistance(data[id1], data[id]));
+  }
+  visited.insert(id1);
+  string p_id, u_id;
+  while (visited.size() < data.size()) {
+    double min_dis = DBL_MAX * 0.9;
+
+    // find an unvisited neighbor with min distance
+    for (auto &pr : dis) {
+      if (visited.end() == find(visited.begin(), visited.end(), pr.first)) {  // this is unvisited
+        if (pr.second.second < min_dis) {
+          p_id = pr.second.first;
+          min_dis = pr.second.second;
+          u_id = pr.first;
+        }
+      }
+    }
+    visited.insert(u_id);
+
+    // if the destination has been found
+    if (u_id == id2) {
+      break;
+    }
+
+    // update with the distance to the neighbors of u
+    for (auto &id : data[u_id].neighbors) {
+      double new_dis = min_dis + CalculateDistance(data[u_id], data[id]);
+      if (new_dis < dis[id].second) {
+        dis[id] = make_pair(u_id, new_dis);
+      }
+    }
+  }
   vector<string> path;
+  u_id = id2;
+  while (u_id != "") {
+    path.push_back(u_id);
+    u_id = dis[u_id].first;
+  }
+  reverse(path.begin(), path.end());
   return path;
 }
 
