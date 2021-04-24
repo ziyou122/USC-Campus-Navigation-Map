@@ -33,13 +33,6 @@ Instructor: Arash Saifhashemi
   sudo apt install build-essential
   ```
 
-- ### CMake
-
-  ```shell
-  sudo apt update
-  sudo apt install cmake pkg-config
-  ```
-
 - ### Bazel
 
   See https://docs.bazel.build/versions/4.0.0/install-ubuntu.html#install-on-ubuntu
@@ -75,28 +68,10 @@ Instructor: Arash Saifhashemi
   make install
   ```
 
-- ### Qt
-
-  See https://www.qt.io/download  
-
-  ```shell
-  sudo apt update
-  sudo apt install libglu1-mesa-dev
-
-  cd ~/Qt/Tools/QtCreator/lib/Qt/plugins/sqldrivers
-  
-  ```
-
-  ### MySql  
-
-  See https://dev.mysql.com/downloads/repo/apt/
-
-
 ## Directory Description
 
 `./bazel-*`			GoogleTest output files  
 `./opencv`			OpenCV source files  
-`./qt`				Qt source files  
 `./src`				C++ source files  
 `./tests`			GoogleTest files  
 `./ncurses.BUILD`	ncurses build file  
