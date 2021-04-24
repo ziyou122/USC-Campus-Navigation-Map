@@ -620,6 +620,7 @@ string TrojanMap::GetID(const string &name) {
       return pr.first;
     }
   }
+  return "-1";
 }
 
 /**
@@ -631,21 +632,23 @@ string TrojanMap::GetID(const string &name) {
  * @return {vector<string>}       : path
  */
 vector<string> TrojanMap::CalculateShortestPath_Dijkstra(string location1_name, string location2_name) {
+  vector<string> path;
+  string id1 = GetID(location1_name), id2 = GetID(location2_name);
+  if (id1 == "-1" || id2 == "-1") return path;
   unordered_set<string> visited;
   unordered_map<string, pair<string, double>> dis(data.size());  // distance map: <ID, <predecessor ID, distance>
-
-  string id1 = GetID(location1_name), id2 = GetID(location2_name);
 
   // initialization
   for (auto &pr : data) {
     dis[pr.first] = make_pair("", DBL_MAX);
   }
-  dis[id1] = make_pair("", 0);
+  dis[id1].second = 0;
   for (auto &id : data[id1].neighbors) {
     dis[id] = make_pair(id1, CalculateDistance(data[id1], data[id]));
   }
   visited.insert(id1);
-  string p_id, u_id;
+
+  string u_id;
   while (visited.size() < data.size()) {
     double min_dis = DBL_MAX * 0.9;
 
@@ -653,7 +656,6 @@ vector<string> TrojanMap::CalculateShortestPath_Dijkstra(string location1_name, 
     for (auto &pr : dis) {
       if (visited.end() == find(visited.begin(), visited.end(), pr.first)) {  // this is unvisited
         if (pr.second.second < min_dis) {
-          p_id = pr.second.first;
           min_dis = pr.second.second;
           u_id = pr.first;
         }
@@ -662,9 +664,7 @@ vector<string> TrojanMap::CalculateShortestPath_Dijkstra(string location1_name, 
     visited.insert(u_id);
 
     // if the destination has been found
-    if (u_id == id2) {
-      break;
-    }
+    if (u_id == id2) break;
 
     // update with the distance to the neighbors of u
     for (auto &id : data[u_id].neighbors) {
@@ -674,7 +674,7 @@ vector<string> TrojanMap::CalculateShortestPath_Dijkstra(string location1_name, 
       }
     }
   }
-  vector<string> path;
+
   u_id = id2;
   while (u_id != "") {
     path.push_back(u_id);
@@ -694,6 +694,39 @@ vector<string> TrojanMap::CalculateShortestPath_Dijkstra(string location1_name, 
  */
 vector<string> TrojanMap::CalculateShortestPath_Bellman_Ford(string location1_name, string location2_name) {
   vector<string> path;
+  string id1 = GetID(location1_name), id2 = GetID(location2_name);
+  if (id1 == "-1" || id2 == "-1") return path;
+  unordered_map<string, pair<string, double>> dis;
+  unordered_set<string> updated;
+
+  // initialization
+  for (auto &pr : data) {
+    dis[pr.first] = make_pair("", DBL_MAX);
+  }
+  dis[id1].second = 0;
+  updated.insert(id1);
+
+  for (int i = 0; i < data.size() - 1; i++) {
+    unordered_set<string> updated_pre(updated);
+    updated.clear();
+    for (auto &id : updated_pre) {
+      for (auto &nb_id : data[id].neighbors) {
+        double new_dis = dis[id].second + CalculateDistance(data[id], data[nb_id]);
+        if (new_dis < dis[nb_id].second) {
+          dis[nb_id] = make_pair(id, new_dis);
+          updated.insert(nb_id);
+        }
+      }
+    }
+    if (updated.empty()) break;
+  }
+
+  string u_id = id2;
+  while (u_id != "") {
+    path.push_back(u_id);
+    u_id = dis[u_id].first;
+  }
+  reverse(path.begin(), path.end());
   return path;
 }
 
