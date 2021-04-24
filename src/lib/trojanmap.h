@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <map>
+#include <unordered_map>
 #include <vector>
 
 using namespace std;
@@ -134,6 +135,7 @@ class TrojanMap {
   // cycle or not in this subgraph.
   // vector square has 4 elements: left/right/top/bottom bound in order.
   bool CycleDetection(vector<double> &square);
+  bool CycleDetection_(string &, string &, unordered_map<string, bool> &);
 
   //----------------------------------------------------- User-defined functions
 };

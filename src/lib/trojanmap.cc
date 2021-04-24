@@ -424,6 +424,7 @@ void TrojanMap::PlotPointsandEdges(vector<string> &location_ids, vector<double> 
                cv::Scalar(0, 255, 0), LINE_WIDTH);
     }
   }
+  cv::startWindowThread();
   cv::imshow("TrojanMap", img);
   cv::waitKey(1);
 }
@@ -833,4 +834,35 @@ pair<double, vector<vector<string>>> TravellingTrojan_2opt(vector<string> &locat
  * @param {vector<double>} square: four vertexes of the square area
  * @return {bool}: whether there is a cycle or not
  */
-bool TrojanMap::CycleDetection(vector<double> &square) { return false; }
+bool TrojanMap::CycleDetection(vector<double> &square) {
+  vector<string> location_ids;
+  for (auto &pr : data) {
+    if (pr.second.lon > square[0] && pr.second.lon < square[1] && pr.second.lat > square[3] &&
+        pr.second.lat < square[2])
+      location_ids.push_back(pr.first);
+  }
+  // PlotPointsandEdges(location_ids, square);
+  unordered_map<string, bool> visited;
+  for (auto id : location_ids) {
+    visited[id] = false;
+  }
+  for (auto id : location_ids) {
+    if (!visited[id]) {
+      string s;  // null
+      if (CycleDetection_(id, s, visited)) return true;
+    }
+  }
+  return false;
+}
+
+bool TrojanMap::CycleDetection_(string &id, string &parent, unordered_map<string, bool> &visited) {
+  visited[id] = true;
+  for (auto nb_id : data[id].neighbors) {
+    if (!visited[nb_id]) {
+      if (CycleDetection_(nb_id, id, visited)) return true;
+    } else if (visited[nb_id] && nb_id != parent) {
+      return true;
+    }
+  }
+  return false;
+}

@@ -72,7 +72,7 @@ TEST(TrojanMapTest, CalculateShortestPath_Dijkstra) {
   std::cout << "GT path length: " << m.CalculatePathLength(gt) << "miles" << std::endl;
   EXPECT_EQ(path, gt);
 }
-*/
+
 // Test CalculateShortestPath_Dijkstra function 2
 TEST(TrojanMapTest, CalculateShortestPath_Dijkstra2) {
   TrojanMap m;
@@ -162,9 +162,7 @@ TEST(TrojanMapTest, TSP3) {
 
   EXPECT_EQ(flag, true);
 }
-
-/*
-
+*/
 // Test cycle detection function
 TEST(TrojanMapTest, CycleDetection) {
   TrojanMap m;
@@ -180,6 +178,7 @@ TEST(TrojanMapTest, CycleDetection) {
   EXPECT_EQ(result2, false);
 }
 
+/*
 // Test cycle detection function
 TEST(TrojanMapTest, TopologicalSort) {
   TrojanMap m;
@@ -191,5 +190,4 @@ TEST(TrojanMapTest, TopologicalSort) {
   std::vector<std::string> gt = {"Cardinal Gardens", "Coffee Bean1", "CVS"};
   EXPECT_EQ(result, gt);
 }
-
 */
