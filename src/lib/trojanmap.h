@@ -129,6 +129,7 @@ class TrojanMap {
                          double &min_dis);
 
   pair<double, vector<vector<string>>> TravellingTrojan_2opt(vector<string> &location_ids);
+  void UpdatePaths(vector<vector<string>> &paths, vector<string> &location_ids, int i, int j);
 
   // Given a subgraph specified by a square-shape area, determine whether there is a
   // cycle or not in this subgraph.
