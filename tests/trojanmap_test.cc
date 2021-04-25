@@ -72,25 +72,25 @@ TEST(TrojanMapTest, CalculateShortestPath_Dijkstra) {
   std::cout << "GT path length: " << m.CalculatePathLength(gt) << "miles" << std::endl;
   EXPECT_EQ(path, gt);
 }
-*/
-// // Test CalculateShortestPath_Dijkstra function 2
-// TEST(TrojanMapTest, CalculateShortestPath_Dijkstra2) {
-//   TrojanMap m;
-//   m.CreateGraphFromCSVFile();
-//   auto path = m.CalculateShortestPath_Dijkstra("Target", "Popeyes Louisiana Kitchen");
-//   // Test from Target to Popeyes Louisiana Kitchen
-//   std::vector<std::string> gt{
-//       "5237417650", "6813379479", "5237381975", "4399698012", "4399698013", "4399698011", "4399698010", "123044712",
-//       "4399698009", "4399698008", "123005253",  "6813379513", "6813379517", "6813379521", "123327627",  "4399697999",
-//       "6813565290", "122719210",  "6813379407", "2613117879", "6813379406", "6807905595", "6787803635", "2613117867",
-//       "4835551110", "6813565296", "122719205",  "6813565294", "4835551232", "4835551104", "4012842272", "4835551103",
-//       "123178841",  "6813565313", "122814435",  "6813565311", "4835551228", "6813513565", "4835551090", "4835551081",
-//       "6813513564", "20400292",   "5556117120", "5556117115", "4835551064", "4012842277", "6813565326", "123241961",
-//       "6813565322", "4835551070", "5695236164"};  // Expected path
-//   // Print the path lengths
-//   std::cout << "My path length: " << m.CalculatePathLength(path) << "miles" << std::endl;
-//   std::cout << "GT path length: " << m.CalculatePathLength(gt) << "miles" << std::endl;
-//   EXPECT_EQ(path, gt);
+
+// Test CalculateShortestPath_Dijkstra function 2
+TEST(TrojanMapTest, CalculateShortestPath_Dijkstra2) {
+  TrojanMap m;
+  m.CreateGraphFromCSVFile();
+  auto path = m.CalculateShortestPath_Dijkstra("Target", "Popeyes Louisiana Kitchen");
+  // Test from Target to Popeyes Louisiana Kitchen
+  std::vector<std::string> gt{
+      "5237417650", "6813379479", "5237381975", "4399698012", "4399698013", "4399698011", "4399698010", "123044712",
+      "4399698009", "4399698008", "123005253",  "6813379513", "6813379517", "6813379521", "123327627",  "4399697999",
+      "6813565290", "122719210",  "6813379407", "2613117879", "6813379406", "6807905595", "6787803635", "2613117867",
+      "4835551110", "6813565296", "122719205",  "6813565294", "4835551232", "4835551104", "4012842272", "4835551103",
+      "123178841",  "6813565313", "122814435",  "6813565311", "4835551228", "6813513565", "4835551090", "4835551081",
+      "6813513564", "20400292",   "5556117120", "5556117115", "4835551064", "4012842277", "6813565326", "123241961",
+      "6813565322", "4835551070", "5695236164"};  // Expected path
+  // Print the path lengths
+  std::cout << "My path length: " << m.CalculatePathLength(path) << "miles" << std::endl;
+  std::cout << "GT path length: " << m.CalculatePathLength(gt) << "miles" << std::endl;
+  EXPECT_EQ(path, gt);
 
 //   // Reverse the input from Popeyes Louisiana Kitchen to Target
 //   path = m.CalculateShortestPath_Dijkstra("Popeyes Louisiana Kitchen", "Target");
@@ -244,9 +244,7 @@ TEST(TrojanMapTest, DeliveringTrojan) {
 
   EXPECT_EQ(true, true);
 }
-
-/*
-
+*/
 // Test cycle detection function
 TEST(TrojanMapTest, CycleDetection) {
   TrojanMap m;
@@ -262,6 +260,7 @@ TEST(TrojanMapTest, CycleDetection) {
   EXPECT_EQ(result2, false);
 }
 
+/*
 // Test cycle detection function
 TEST(TrojanMapTest, TopologicalSort) {
   TrojanMap m;
@@ -273,5 +272,4 @@ TEST(TrojanMapTest, TopologicalSort) {
   std::vector<std::string> gt = {"Cardinal Gardens", "Coffee Bean1", "CVS"};
   EXPECT_EQ(result, gt);
 }
-
 */
