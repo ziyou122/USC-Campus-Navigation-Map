@@ -7,22 +7,171 @@ Instructor: Arash Saifhashemi
 
 ## Overview  
 
+  ### Functionalities
+
+  - Autocomplete location names
+  - Find Coordinates
+  - Calculate Shortest Path
+    - Dijkstra
+    - Bellman-ford
+  - Traveling Salesman Problem
+    - Brute-force
+    - 2-opt
+  - Cycle Detection
+  - Topological Sort
+
   ### Data structure  
 
   ```c++
-  class Node {
-   public:
+class Node {
+    public:
     string id;                 // A unique id assigned to each point
     double lat;                // Latitude
     double lon;                // Longitude
     string name;               // Name of the location
     vector<string> neighbors;  // List of the ids of all neighbor points
-  };
+};
 
-  class TrojanMap {
-   public:
+class TrojanMap {
+    public:
     map<string, Node> data;    // A map of ids to Nodes
+    ...
+};
   ```
+
+## Time Complexity Analysis  
+
+  ### Auto Complete location names  
+  ```c++
+vector<string> TrojanMap::Autocomplete(string name) {
+    ...
+        for (auto pr : data) { // O(v)
+            transform(pr.second.name.begin(), pr.second.name.end(), str.begin(), ::tolower); // O(l)
+            ...
+        }
+    ...
+}
+  ```
+
+Time complexity: O(v*l), where v is the number of vertices (locations), l is the max length of a location name 
+
+Example: 
+Input: "k"
+Result:  
+
+```
+*************************Results******************************
+Kentucky Fried Chicken
+Korean Presbyterian Church
+Kobunga Korean Grill
+Kaitlyn
+**************************************************************
+```
+
+Time taken:  
+
+  ### Find Coordinates  
+  ```c++
+pair<double, double> TrojanMap::GetPosition(string name) {
+    ...
+        for (auto pr : data) {...} // O(v)
+    ...
+}
+  ```
+Time complexity: O(v), where v is the number of vertices (locations)  
+Time taken:  
+
+  ### Calculate Shortest Path  
+  #### Dijkstra  
+
+Example: 
+Input: Target, Popeyes Louisiana Kitchen
+Result: 
+![](.\img\3.png)
+Time taken: xx ms
+
+  #### Bellman-ford  
+  ```c++
+vector<string> TrojanMap::CalculateShortestPath_Bellman_Ford(string location1_name, string location2_name) {
+    ...
+        for (int i = 0; i < data.size() - 1; i++) {              // O(v)
+            ...
+                for (auto &id : updated_pre) {                   // -+
+                                                                 //  +-> O(e)
+                    for (auto &nb_id : data[id].neighbors) {...} // -+
+                    ...
+                }
+            ...
+        }
+    ...
+}
+  ```
+Time complexity: O(v*e), where v is the number of vertices (locations), e is the number of edges (paths) 
+
+Example: 
+Input: Target, Popeyes Louisiana Kitchen
+Result: 
+![](.\img\3.png)
+Time taken: 22.176 ms
+
+  ### Traveling Salesman Problem  
+  #### Brute-force  
+
+```c++
+pair<double, vector<vector<string>>> TrojanMap::TravellingTrojan(vector<string> &location_ids);
+void TrojanMap::TravellingTrojan_(vector<string> &ids, vector<vector<string>> &paths, vector<string> &cur_path,
+                                  double &cur_dis, double &min_dis);
+```
+
+![](./img/4_1_1.png)
+
+Solving TSP using brute-force is just like a permutation which is shown above.
+Time complexity:  O((v-1)!), where v is the number of vertices (locations)
+
+Example:
+Input: 
+Result: 
+<image>
+Time taken:  
+
+  #### 2-opt  
+Time complexity: 
+
+Example:
+Input: 
+Result: 
+<image>
+Time taken:  
+
+  ### Cycle Detection  
+
+```c++
+bool TrojanMap::CycleDetection(vector<double> &square);
+bool TrojanMap::CycleDetection_(string &id, string &parent, unordered_map<string, bool> &visited);
+```
+
+Cycle detection is a kind of DFS.
+Time complexity:  O(v+e), where v is the number of vertices (locations), e is the number of edges (paths) 
+
+Example:
+Input: -118.295, -118.27, 34.025, 34.015
+Result: There exists at least one cycle in the subgraph
+![](./img/5.png)
+Time taken: 37.350 ms
+
+  ### Topological Sort  
+
+```c++
+vector<string> TrojanMap::DeliveringTrojan(vector<string> &locations, vector<vector<string>> &dependencies)
+```
+
+Time complexity: 
+
+Example:
+Input: 
+Result: 
+<image>
+Time taken:  
 
 ## Source Code Dependencies 
 
@@ -77,7 +226,3 @@ Instructor: Arash Saifhashemi
 `./ncurses.BUILD`	ncurses build file  
 `./opencv.BUILD`	OpenCV build file  
 `./WORKSPACE`		bazel build file  
-
-## Reference  
-
-2-opt: http://cs.indstate.edu/~zeeshan/aman.pdf
