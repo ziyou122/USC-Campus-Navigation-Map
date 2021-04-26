@@ -122,12 +122,14 @@ Time complexity: O(v*e), where v is the number of vertices (locations), e is the
 > Input: Target, Popeyes Louisiana Kitchen
 >
 > **Result of Dijkstra:**
-> <img src=".\img\3.png" style="zoom:120%;"/>
+>
+>  <img src=".\img\3.png" style="zoom:120%;"/>
 >
 > Time taken: ?????????????????????????????? ms
 >
 > **Result of Bellman-ford:**
-> <img src=".\img\3.png" style="zoom:120%;" />
+>
+>  <img src=".\img\3.png" style="zoom:120%;" />
 >
 > Time taken: 22.176 ms
 
