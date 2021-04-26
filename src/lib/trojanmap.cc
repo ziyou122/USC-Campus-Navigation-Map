@@ -257,7 +257,7 @@ void TrojanMap::PrintMenu() {
       // Read dependencies from CSV file
       vector<vector<string>> dependencies;
       if (dependencies_filename == "")
-        dependencies = {{"Coffee Bean1", "Cardinal Gardens"}, {"CVS", "Cardinal Gardens"}, {"CVS", "Coffee Bean1"}};
+        dependencies = {{"Cardinal Gardens", "Coffee Bean1"}, {"Cardinal Gardens", "CVS"}, {"Coffee Bean1", "CVS"}};
       else
         dependencies = ReadDependenciesFromCSVFile(dependencies_filename);
 
@@ -271,7 +271,7 @@ void TrojanMap::PrintMenu() {
       menu = "*************************Results******************************";
       cout << menu << endl;
       cout << "Topological Sorting Reults:" << endl;
-      for (auto x : result) cout << x << endl;
+      for (auto x : result) cout << "result: " << x << endl;
       vector<string> node_ids;
       for (auto x : result) {
         Node node = GetNode(x);
@@ -299,21 +299,21 @@ void TrojanMap::PrintMenu() {
  *
  */
 void TrojanMap::CreateGraphFromCSVFile() {
-  fstream fin;
-  fin.open("src/lib/map.csv", ios::in);
-  string line, word;
+std::fstream fin;
+  fin.open("src/lib/map.csv", std::ios::in);
+  std::string line, word;
 
   getline(fin, line);
   while (getline(fin, line)) {
-    stringstream s(line);
+    std::stringstream s(line);
 
     Node n;
     int count = 0;
     while (getline(s, word, ',')) {
-      word.erase(remove(word.begin(), word.end(), '\''), word.end());
-      word.erase(remove(word.begin(), word.end(), '"'), word.end());
-      word.erase(remove(word.begin(), word.end(), '['), word.end());
-      word.erase(remove(word.begin(), word.end(), ']'), word.end());
+      word.erase(std::remove(word.begin(), word.end(), '\''), word.end());
+      word.erase(std::remove(word.begin(), word.end(), '"'), word.end());
+      word.erase(std::remove(word.begin(), word.end(), '['), word.end());
+      word.erase(std::remove(word.begin(), word.end(), ']'), word.end());
       if (count == 0)
         n.id = word;
       else if (count == 1)
@@ -323,7 +323,7 @@ void TrojanMap::CreateGraphFromCSVFile() {
       else if (count == 3)
         n.name = word;
       else {
-        word.erase(remove(word.begin(), word.end(), ' '), word.end());
+        word.erase(std::remove(word.begin(), word.end(), ' '), word.end());
         n.neighbors.push_back(word);
       }
       count++;
@@ -433,25 +433,39 @@ void TrojanMap::PlotPointsandEdges(vector<string> &location_ids, vector<double> 
  * PlotPointsOrder: Given a vector of location ids draws the points on the map (no path).
  *
  * @param  {vector<string>} location_ids : points
- */
-void TrojanMap::PlotPointsOrder(vector<string> &location_ids) {
-  string image_path = cv::samples::findFile("src/lib/input.jpg");
+//  */
+// cout << "name: " << x << endl;
+//       cout << "in plot1: " << data[x].lat << "|" << data[x].lon << endl;
+//       cout << "in plot2: " << result.first << "-" << result.second << endl;
+void TrojanMap::PlotPointsOrder(std::vector<std::string> &location_ids) {
+  std::string image_path = cv::samples::findFile("src/lib/input.jpg");
   cv::Mat img = cv::imread(image_path, cv::IMREAD_COLOR);
+  // for(auto it : data) {
+  //   cout << "data: " << it.first << endl;
+  //   //6816719840
+  // }
+  cout << "data size: " << data.size() << endl;
   for (auto x : location_ids) {
     auto result = GetPlotLocation(data[x].lat, data[x].lon);
-    cv::putText(img, data[x].name, cv::Point(result.first, result.second), cv::FONT_HERSHEY_DUPLEX, 1.0,
-                CV_RGB(255, 0, 0), 2);
-  }
+    cv::putText(img, data[x].name, cv::Point(result.first, result.second), cv::FONT_HERSHEY_DUPLEX, 1.0, CV_RGB(255, 0, 0), 2);
+    // cout << "name: " << x << endl;
+    // cout << "in plot1: " << data[x].lat << "|" << data[x].lon << endl;
+    // cout << "in plot2: " << result.first << "-" << result.second << endl;
+  } 
   // Plot dots and lines
   auto start = GetPlotLocation(data[location_ids[0]].lat, data[location_ids[0]].lon);
-  cv::circle(img, cv::Point(int(start.first), int(start.second)), DOT_SIZE, cv::Scalar(0, 0, 255), cv::FILLED);
+  cv::circle(img, cv::Point(int(start.first), int(start.second)), DOT_SIZE,
+             cv::Scalar(0, 0, 255), cv::FILLED);
   for (auto i = 1; i < location_ids.size(); i++) {
     auto start = GetPlotLocation(data[location_ids[i - 1]].lat, data[location_ids[i - 1]].lon);
     auto end = GetPlotLocation(data[location_ids[i]].lat, data[location_ids[i]].lon);
-    cv::circle(img, cv::Point(int(end.first), int(end.second)), DOT_SIZE, cv::Scalar(0, 0, 255), cv::FILLED);
-    cv::arrowedLine(img, cv::Point(int(start.first), int(start.second)), cv::Point(int(end.first), int(end.second)),
-                    cv::Scalar(0, 255, 0), LINE_WIDTH);
+    cv::circle(img, cv::Point(int(end.first), int(end.second)), DOT_SIZE,
+               cv::Scalar(0, 0, 255), cv::FILLED);
+    cv::arrowedLine(img, cv::Point(int(start.first), int(start.second)),
+             cv::Point(int(end.first), int(end.second)), cv::Scalar(0, 255, 0),
+             LINE_WIDTH);
   }
+  cv::startWindowThread();
   cv::imshow("TrojanMap", img);
   cv::waitKey(1);
 }
@@ -493,6 +507,7 @@ pair<double, double> TrojanMap::GetPlotLocation(double lat, double lon) {
   pair<double, double> upperRight(34.03302, -118.26502);
   double h = upperRight.first - bottomLeft.first;
   double w = upperRight.second - bottomLeft.second;
+  
   pair<double, double> result((lon - bottomLeft.second) / w * 1248, (1 - (lat - bottomLeft.first) / h) * 992);
   return result;
 }
@@ -611,7 +626,12 @@ pair<double, double> TrojanMap::GetPosition(string name) {
  */
 Node TrojanMap::GetNode(string name) {
   Node n;
-  n.id = "";
+  for(auto pair: data) {
+    if(pair.second.name == name) {
+      n = pair.second;
+      break;
+    }
+  }
   return n;
 }
 
@@ -802,7 +822,6 @@ vector<string> TrojanMap::DeliveringTrojan(vector<string> &locations, vector<vec
     total_map.insert(pair<string, int>(locations[i], 0));
   }   
   for(int i = 0; i < dependencies.size(); i++) {
-    //std::cout << dependencies[i][1] << std::endl;
     total_map[dependencies[i][1]]++;
   }
 
@@ -829,7 +848,7 @@ vector<string> TrojanMap::DeliveringTrojan(vector<string> &locations, vector<vec
       }
     }
   }
-  
+  PlotPointsOrder(result);
   return result;
 }
 

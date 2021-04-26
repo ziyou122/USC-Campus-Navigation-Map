@@ -40,7 +40,7 @@
 //   std::pair<double, double> gt3(34.0257016, -118.2843512);  // groundtruth for "Target"
 //   EXPECT_EQ(position, gt3);
 // }
-/*
+
 // Test CalculateShortestPath_Dijkstra function 1
 TEST(TrojanMapTest, CalculateShortestPath_Dijkstra) {
   TrojanMap m;
@@ -231,7 +231,8 @@ TEST(TrojanMapTest, DeliveringTrojan) {
   
   TrojanMap m;
   vector<string> location;
-  location = m.ReadLocationsFromCSVFile("/home/student/2021Spring_TrojanMap/final-project-HaoxinMa/input/topologicalsort_dependencies.csv");
+  location = m.ReadLocationsFromCSVFile("/home/student/2021Spring_TrojanMap/final-project-HaoxinMa/input/topologicalsort_locations.csv");
+  
   vector<vector<string>> dep;
   dep = m.ReadDependenciesFromCSVFile("/home/student/2021Spring_TrojanMap/final-project-HaoxinMa/input/topologicalsort_dependencies.csv");
   
@@ -244,7 +245,7 @@ TEST(TrojanMapTest, DeliveringTrojan) {
 
   EXPECT_EQ(true, true);
 }
-*/
+
 // Test cycle detection function
 TEST(TrojanMapTest, CycleDetection) {
   TrojanMap m;
