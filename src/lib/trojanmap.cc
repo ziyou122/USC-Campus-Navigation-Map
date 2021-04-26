@@ -301,7 +301,7 @@ void TrojanMap::PrintMenu() {
  *
  */
 void TrojanMap::CreateGraphFromCSVFile() {
-std::fstream fin;
+  std::fstream fin;
   fin.open("src/lib/map.csv", std::ios::in);
   std::string line, word;
 
@@ -449,23 +449,21 @@ void TrojanMap::PlotPointsOrder(std::vector<std::string> &location_ids) {
   cout << "data size: " << data.size() << endl;
   for (auto x : location_ids) {
     auto result = GetPlotLocation(data[x].lat, data[x].lon);
-    cv::putText(img, data[x].name, cv::Point(result.first, result.second), cv::FONT_HERSHEY_DUPLEX, 1.0, CV_RGB(255, 0, 0), 2);
+    cv::putText(img, data[x].name, cv::Point(result.first, result.second), cv::FONT_HERSHEY_DUPLEX, 1.0,
+                CV_RGB(255, 0, 0), 2);
     // cout << "name: " << x << endl;
     // cout << "in plot1: " << data[x].lat << "|" << data[x].lon << endl;
     // cout << "in plot2: " << result.first << "-" << result.second << endl;
-  } 
+  }
   // Plot dots and lines
   auto start = GetPlotLocation(data[location_ids[0]].lat, data[location_ids[0]].lon);
-  cv::circle(img, cv::Point(int(start.first), int(start.second)), DOT_SIZE,
-             cv::Scalar(0, 0, 255), cv::FILLED);
+  cv::circle(img, cv::Point(int(start.first), int(start.second)), DOT_SIZE, cv::Scalar(0, 0, 255), cv::FILLED);
   for (auto i = 1; i < location_ids.size(); i++) {
     auto start = GetPlotLocation(data[location_ids[i - 1]].lat, data[location_ids[i - 1]].lon);
     auto end = GetPlotLocation(data[location_ids[i]].lat, data[location_ids[i]].lon);
-    cv::circle(img, cv::Point(int(end.first), int(end.second)), DOT_SIZE,
-               cv::Scalar(0, 0, 255), cv::FILLED);
-    cv::arrowedLine(img, cv::Point(int(start.first), int(start.second)),
-             cv::Point(int(end.first), int(end.second)), cv::Scalar(0, 255, 0),
-             LINE_WIDTH);
+    cv::circle(img, cv::Point(int(end.first), int(end.second)), DOT_SIZE, cv::Scalar(0, 0, 255), cv::FILLED);
+    cv::arrowedLine(img, cv::Point(int(start.first), int(start.second)), cv::Point(int(end.first), int(end.second)),
+                    cv::Scalar(0, 255, 0), LINE_WIDTH);
   }
   cv::startWindowThread();
   cv::imshow("TrojanMap", img);
@@ -509,7 +507,7 @@ pair<double, double> TrojanMap::GetPlotLocation(double lat, double lon) {
   pair<double, double> upperRight(34.03302, -118.26502);
   double h = upperRight.first - bottomLeft.first;
   double w = upperRight.second - bottomLeft.second;
-  
+
   pair<double, double> result((lon - bottomLeft.second) / w * 1248, (1 - (lat - bottomLeft.first) / h) * 992);
   return result;
 }
@@ -578,6 +576,7 @@ double TrojanMap::CalculateDistance(const Node &a, const Node &b) {
  * @return {double}                        : path length
  */
 double TrojanMap::CalculatePathLength(const vector<string> &path) {
+  if (path.empty()) return 0;
   double sum = 0;
   for (int i = 0; i < path.size() - 1; i++) {
     sum += CalculateDistance(data[path[i]], data[path[i + 1]]);
@@ -628,8 +627,8 @@ pair<double, double> TrojanMap::GetPosition(string name) {
  */
 Node TrojanMap::GetNode(string name) {
   Node n;
-  for(auto pair: data) {
-    if(pair.second.name == name) {
+  for (auto pair : data) {
+    if (pair.second.name == name) {
       n = pair.second;
       break;
     }
@@ -661,7 +660,7 @@ vector<string> TrojanMap::CalculateShortestPath_Dijkstra(string location1_name, 
   unordered_map<string, pair<string, double>> dis(data.size());
   // q: <distance_from_id1_to_id, id>
   priority_queue<pair<double, string>, vector<pair<double, string>>, greater<pair<double, string>>> q;
-
+  bool is_id2_visited = false;
   if (id1 == "-1" || id2 == "-1") return path;
 
   // initialization
@@ -675,7 +674,10 @@ vector<string> TrojanMap::CalculateShortestPath_Dijkstra(string location1_name, 
   while (!q.empty()) {
     string id = q.top().second;
     q.pop();
-    if (id == id2) break;
+    if (id == id2) {
+      is_id2_visited = true;
+      break;
+    }
     for (auto nb_id : data[id].neighbors) {
       double new_dis = dis[id].second + CalculateDistance(data[id], data[nb_id]);
       if (new_dis < dis[nb_id].second) {
@@ -684,6 +686,8 @@ vector<string> TrojanMap::CalculateShortestPath_Dijkstra(string location1_name, 
       }
     }
   }
+
+  if (!is_id2_visited) return path;
 
   // backtrack predecessors of id2
   string id = id2;
@@ -731,6 +735,8 @@ vector<string> TrojanMap::CalculateShortestPath_Bellman_Ford(string location1_na
     }
     if (updated.empty()) break;
   }
+
+  if (dis[id2].second == DBL_MAX) return path;
 
   string u_id = id2;
   while (u_id != "") {
@@ -809,8 +815,8 @@ vector<string> TrojanMap::DeliveringTrojan(vector<string> &locations, vector<vec
   // initialize total_map: key:location, value:indegree
   for (int i = 0; i < locations.size(); i++) {
     total_map.insert(pair<string, int>(locations[i], 0));
-  }   
-  for(int i = 0; i < dependencies.size(); i++) {
+  }
+  for (int i = 0; i < dependencies.size(); i++) {
     total_map[dependencies[i][1]]++;
   }
 
