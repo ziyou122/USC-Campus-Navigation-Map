@@ -9,7 +9,7 @@ Instructor: Arash Saifhashemi
 
   ### Functionalities
 
-  - Autocomplete location names
+  - Auto Complete location names
   - Find Coordinates
   - Calculate Shortest Path
     - Dijkstra
@@ -39,7 +39,7 @@ class TrojanMap {
 };
   ```
 
-## Time Complexity Analysis  
+## Time Complexity Analysis and Results 
 
   ### Auto Complete location names  
   ```c++
@@ -53,22 +53,25 @@ vector<string> TrojanMap::Autocomplete(string name) {
 }
   ```
 
-Time complexity: O(v*l), where v is the number of vertices (locations), l is the max length of a location name 
+Time complexity: O(v*l),
 
-Example: 
-Input: "k"
-Result:  
+where v is the number of vertices (locations), l is the max length of a location name 
 
-```
-*************************Results******************************
-Kentucky Fried Chicken
-Korean Presbyterian Church
-Kobunga Korean Grill
-Kaitlyn
-**************************************************************
-```
-
-Time taken:  
+> Example:
+>
+> Input: "k"
+>
+> Result:  
+>
+> ```
+> *************************Results******************************
+> Kentucky Fried Chicken
+> Korean Presbyterian Church
+> Kobunga Korean Grill
+> Kaitlyn
+> **************************************************************
+> ```
+> Time taken: 1.848 ms
 
   ### Find Coordinates  
   ```c++
@@ -78,17 +81,23 @@ pair<double, double> TrojanMap::GetPosition(string name) {
     ...
 }
   ```
-Time complexity: O(v), where v is the number of vertices (locations)  
-Time taken:  
+Time complexity: O(v),
+
+where v is the number of vertices (locations)  
+
+> Example: 
+>
+> Input: "Kentucky Fried Chicken"
+>
+> Result:
+> <img src=".\img\2.png" style="zoom: 50%;" />
+>
+> Time taken:  0.791 ms
 
   ### Calculate Shortest Path  
-  #### Dijkstra  
+  #### Dijkstra
 
-Example: 
-Input: Target, Popeyes Louisiana Kitchen
-Result: 
-![](.\img\3.png)
-Time taken: xx ms
+
 
   #### Bellman-ford  
   ```c++
@@ -108,11 +117,21 @@ vector<string> TrojanMap::CalculateShortestPath_Bellman_Ford(string location1_na
   ```
 Time complexity: O(v*e), where v is the number of vertices (locations), e is the number of edges (paths) 
 
-Example: 
-Input: Target, Popeyes Louisiana Kitchen
-Result: 
-![](.\img\3.png)
-Time taken: 22.176 ms
+> Example: 
+>
+> Input: Target, Popeyes Louisiana Kitchen
+>
+> **Result of Dijkstra:**
+>
+>  <img src=".\img\3.png" style="zoom:120%;"/>
+>
+> Time taken: 6.419 ms
+>
+> **Result of Bellman-ford:**
+>
+>  <img src=".\img\3.png" style="zoom:120%;" />
+>
+> Time taken: 22.176 ms
 
   ### Traveling Salesman Problem  
   #### Brute-force  
@@ -123,25 +142,36 @@ void TrojanMap::TravellingTrojan_(vector<string> &ids, vector<vector<string>> &p
                                   double &cur_dis, double &min_dis);
 ```
 
-![](./img/4_1_1.png)
+ ![](./img/4_1_permutation.png)
 
 Solving TSP using brute-force is just like a permutation which is shown above.
-Time complexity:  O((v-1)!), where v is the number of vertices (locations)
 
-Example:
-Input: 
-Result: 
-<image>
-Time taken:  
+Time complexity:  O((v-1)!),
+
+where v is the number of vertices (locations)
 
   #### 2-opt  
 Time complexity: 
 
-Example:
-Input: 
-Result: 
-<image>
-Time taken:  
+> Example:
+>
+> Input: {"123120189",  "4011837229", "4011837224", "2514542032", "2514541020",  "1931345270", "4015477529", "214470792",  "63068532",   "6807909279"}
+>
+> **Result of Brute-force:**
+>
+>  <img src="./img/4_1.png" style="zoom: 50%;" />
+>
+> The distance of the path is: 4.61742 miles
+>
+> Time taken: 166.724 ms
+>
+> **Result of 2-opt:**
+>
+>  <img src="./img/4_2.png" style="zoom: 50%;" />
+>
+> The distance of the path is: 4.61742 miles
+>
+> Time taken: 0.733 ms
 
   ### Cycle Detection  
 
@@ -153,25 +183,33 @@ bool TrojanMap::CycleDetection_(string &id, string &parent, unordered_map<string
 Cycle detection is a kind of DFS.
 Time complexity:  O(v+e), where v is the number of vertices (locations), e is the number of edges (paths) 
 
-Example:
-Input: -118.295, -118.27, 34.025, 34.015
-Result: There exists at least one cycle in the subgraph
-![](./img/5.png)
-Time taken: 37.350 ms
+> Example:
+>
+> Input: {-118.295, -118.27, 34.025, 34.015}
+>
+> Result:
+>
+>  ![](./img/5.png)
+>
+> There exists at least one cycle in the subgraph
+>
+> Time taken: 37.350 ms
 
   ### Topological Sort  
 
 ```c++
-vector<string> TrojanMap::DeliveringTrojan(vector<string> &locations, vector<vector<string>> &dependencies)
+vector<string> TrojanMap::DeliveringTrojan(vector<string> &locations, vector<vector<string>> &dependencies);
 ```
 
 Time complexity: 
 
-Example:
-Input: 
-Result: 
-<image>
-Time taken:  
+> Example:
+>
+> Input: 
+>
+> Result: 
+> 
+> Time taken:  
 
 ## Source Code Dependencies 
 

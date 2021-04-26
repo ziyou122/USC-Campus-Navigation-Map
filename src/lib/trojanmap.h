@@ -136,7 +136,8 @@ class TrojanMap {
   // cycle or not in this subgraph.
   // vector square has 4 elements: left/right/top/bottom bound in order.
   bool CycleDetection(vector<double> &square);
-  bool CycleDetection_(string &, string &, unordered_map<string, bool> &);
+  bool CycleDetection_(string &, string &, unordered_map<string, bool> &, vector<string> &, vector<double> &,
+                       vector<vector<string>> &);
 
   //----------------------------------------------------- User-defined functions
 };

@@ -3,5 +3,5 @@
 /opencv
 .DS_Store
 tests/trojanmap_test.cc
-src/lib/output.avi
 /gt
+src/lib/output.avi
