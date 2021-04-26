@@ -4,11 +4,41 @@
 #include "gtest/gtest.h"
 #include "src/lib/trojanmap.h"
 
+TEST(TrojanMapTest, Autocomplete) {
+  TrojanMap m;
+  m.CreateGraphFromCSVFile();
+  auto names = m.Autocomplete("k");
+  std::vector<std::string> gt1 = {"Kentucky Fried Chicken", "Korean Presbyterian Church", "Kobunga Korean Grill",
+                                  "Kaitlyn"};
+  EXPECT_EQ(names, gt1);
+  names = m.Autocomplete("K");
+  std::vector<std::string> gt2 = {"Kentucky Fried Chicken", "Korean Presbyterian Church", "Kobunga Korean Grill",
+                                  "Kaitlyn"};
+  EXPECT_EQ(names, gt2);
+  names = m.Autocomplete("UsC");
+  std::vector<std::string> gt3 = {"USC Fisher Museum of Art", "USC Village Gym", "USC Parking",
+                                  "USC Village Dining Hall"};
+  EXPECT_EQ(names, gt3);
+}
+
+TEST(TrojanMapTest, FindPosition) {
+  TrojanMap m;
+  m.CreateGraphFromCSVFile();
+  auto position = m.GetPosition("Crosswalk1");
+  std::pair<double, double> gt1(34.0302951, -118.2857237);
+  EXPECT_EQ(position, gt1);
+  position = m.GetPosition("Moreton Fig");
+  std::pair<double, double> gt2(34.0197837, -118.2859973);
+  EXPECT_EQ(position, gt2);
+  position = m.GetPosition("Mercado la Paloma");
+  std::pair<double, double> gt3(34.0173353, -118.2784674);
+  EXPECT_EQ(position, gt3);
+}
+
 TEST(TrojanMapTest, CalculateShortestPath_Bellman_Ford1) {
   TrojanMap m;
   m.CreateGraphFromCSVFile();
   auto path = m.CalculateShortestPath_Bellman_Ford("Target", "Popeyes Louisiana Kitchen");
-  // Test from Target to Popeyes Louisiana Kitchen
   std::vector<std::string> gt{
       "5237417650", "6813379479", "5237381975", "4399698012", "4399698013", "4399698011", "4399698010", "123044712",
       "4399698009", "4399698008", "123005253",  "6813379513", "6813379517", "6813379521", "123327627",  "4399697999",
@@ -17,16 +47,13 @@ TEST(TrojanMapTest, CalculateShortestPath_Bellman_Ford1) {
       "123178841",  "6813565313", "122814435",  "6813565311", "4835551228", "6813513565", "4835551090", "4835551081",
       "6813513564", "20400292",   "5556117120", "5556117115", "4835551064", "4012842277", "6813565326", "123241961",
       "6813565322", "4835551070", "5695236164"};  // Expected path
-  // Print the path lengths
   std::cout << "My path length: " << m.CalculatePathLength(path) << "miles" << std::endl;
   std::cout << "GT path length: " << m.CalculatePathLength(gt) << "miles" << std::endl;
   EXPECT_EQ(path, gt);
 
-  // Reverse the input from Popeyes Louisiana Kitchen to Target
+  // Reverse
   path = m.CalculateShortestPath_Bellman_Ford("Popeyes Louisiana Kitchen", "Target");
-  std::reverse(gt.begin(), gt.end());  // Reverse the path
-
-  // Print the path lengths
+  std::reverse(gt.begin(), gt.end());
   std::cout << "My path length: " << m.CalculatePathLength(path) << "miles" << std::endl;
   std::cout << "GT path length: " << m.CalculatePathLength(gt) << "miles" << std::endl;
   EXPECT_EQ(path, gt);
@@ -35,7 +62,6 @@ TEST(TrojanMapTest, CalculateShortestPath_Bellman_Ford1) {
 TEST(TrojanMapTest, CalculateShortestPath_Bellman_Ford2) {
   TrojanMap m;
   m.CreateGraphFromCSVFile();
-  // Test from Ralphs to ChickfilA
   auto path = m.CalculateShortestPath_Bellman_Ford("Ralphs", "ChickfilA");
   std::vector<std::string> gt{
       "2578244375", "5559640911", "6787470571", "6808093910", "6808093913", "6808093919", "6816831441", "6813405269",
@@ -48,16 +74,13 @@ TEST(TrojanMapTest, CalculateShortestPath_Bellman_Ford2) {
       "6813379548", "4015372476", "4015372474", "4015372468", "4015372463", "6819179749", "1732243544", "6813405275",
       "348121996",  "348121864",  "6813405280", "1472141024", "6813411590", "216155217",  "6813411589", "1837212103",
       "1837212101", "6820935911", "4547476733"};  // Expected path
-  // Print the path lengths
   std::cout << "My path length: " << m.CalculatePathLength(path) << "miles" << std::endl;
   std::cout << "GT path length: " << m.CalculatePathLength(gt) << "miles" << std::endl;
   EXPECT_EQ(path, gt);
 
-  // Reverse the input from Ralphs to ChickfilA
+  // Reverse
   path = m.CalculateShortestPath_Bellman_Ford("ChickfilA", "Ralphs");
-  std::reverse(gt.begin(), gt.end());  // Reverse the path
-
-  // Print the path lengths
+  std::reverse(gt.begin(), gt.end());
   std::cout << "My path length: " << m.CalculatePathLength(path) << "miles" << std::endl;
   std::cout << "GT path length: " << m.CalculatePathLength(gt) << "miles" << std::endl;
   EXPECT_EQ(path, gt);
