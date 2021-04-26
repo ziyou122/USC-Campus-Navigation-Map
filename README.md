@@ -125,7 +125,7 @@ Time complexity: O(v*e), where v is the number of vertices (locations), e is the
 >
 >  <img src=".\img\3.png" style="zoom:120%;"/>
 >
-> Time taken: ?????????????????????????????? ms
+> Time taken: 6.419 ms
 >
 > **Result of Bellman-ford:**
 >
@@ -158,14 +158,16 @@ Time complexity:
 > Input: {"123120189",  "4011837229", "4011837224", "2514542032", "2514541020",  "1931345270", "4015477529", "214470792",  "63068532",   "6807909279"}
 >
 > **Result of Brute-force:**
-> <img src="./img/4_1.png" style="zoom: 50%;" />
+>
+>  <img src="./img/4_1.png" style="zoom: 50%;" />
 >
 > The distance of the path is: 4.61742 miles
 >
 > Time taken: 166.724 ms
 >
 > **Result of 2-opt:**
-> <img src="./img/4_2.png" style="zoom: 50%;" />
+>
+>  <img src="./img/4_2.png" style="zoom: 50%;" />
 >
 > The distance of the path is: 4.61742 miles
 >
@@ -185,8 +187,9 @@ Time complexity:  O(v+e), where v is the number of vertices (locations), e is th
 >
 > Input: {-118.295, -118.27, 34.025, 34.015}
 >
-> Result: 
-> ![](./img/5.png)
+> Result:
+>
+>  ![](./img/5.png)
 >
 > There exists at least one cycle in the subgraph
 >

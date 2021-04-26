@@ -637,51 +637,39 @@ string TrojanMap::GetID(const string &name) {
 vector<string> TrojanMap::CalculateShortestPath_Dijkstra(string location1_name, string location2_name) {
   vector<string> path;
   string id1 = GetID(location1_name), id2 = GetID(location2_name);
+  // dis: <id, <id's_predecessor, distance_from_id1_to_id>
+  unordered_map<string, pair<string, double>> dis(data.size());
+  // q: <distance_from_id1_to_id, id>
+  priority_queue<pair<double, string>, vector<pair<double, string>>, greater<pair<double, string>>> q;
+
   if (id1 == "-1" || id2 == "-1") return path;
-  unordered_set<string> visited;
-  unordered_map<string, pair<string, double>> dis(data.size());  // distance map: <ID, <predecessor ID, distance>
 
   // initialization
   for (auto &pr : data) {
     dis[pr.first] = make_pair("", DBL_MAX);
   }
   dis[id1].second = 0;
-  for (auto &id : data[id1].neighbors) {
-    dis[id] = make_pair(id1, CalculateDistance(data[id1], data[id]));
-  }
-  visited.insert(id1);
+  q.push(make_pair(0, id1));
 
-  string u_id;
-  while (visited.size() < data.size()) {
-    double min_dis = DBL_MAX * 0.9;
-
-    // find an unvisited neighbor with min distance
-    for (auto &pr : dis) {
-      if (visited.end() == find(visited.begin(), visited.end(), pr.first)) {  // this is unvisited
-        if (pr.second.second < min_dis) {
-          min_dis = pr.second.second;
-          u_id = pr.first;
-        }
-      }
-    }
-    visited.insert(u_id);
-
-    // if the destination has been found
-    if (u_id == id2) break;
-
-    // update with the distance to the neighbors of u
-    for (auto &id : data[u_id].neighbors) {
-      double new_dis = min_dis + CalculateDistance(data[u_id], data[id]);
-      if (new_dis < dis[id].second) {
-        dis[id] = make_pair(u_id, new_dis);
+  // update distance
+  while (!q.empty()) {
+    string id = q.top().second;
+    q.pop();
+    if (id == id2) break;
+    for (auto nb_id : data[id].neighbors) {
+      double new_dis = dis[id].second + CalculateDistance(data[id], data[nb_id]);
+      if (new_dis < dis[nb_id].second) {
+        dis[nb_id] = make_pair(id, new_dis);
+        q.push(make_pair(new_dis, nb_id));
       }
     }
   }
 
-  u_id = id2;
-  while (u_id != "") {
-    path.push_back(u_id);
-    u_id = dis[u_id].first;
+  // backtrack predecessors of id2
+  string id = id2;
+  while (id != "") {
+    path.push_back(id);
+    id = dis[id].first;
   }
   reverse(path.begin(), path.end());
   return path;
