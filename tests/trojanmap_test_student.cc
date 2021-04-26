@@ -167,7 +167,7 @@ TEST(TrojanMapTest, TSP_2opt_3) {
   auto result2 = m.TravellingTrojan(input);
   std::cout << "My path length_force: " << result2.first << "miles" << std::endl;  // Print the result path lengths
 
-  EXPECT_GE(floor(result1.first * 100000.000f + 0.5) / 10000.000f, floor(result2.first * 100000.000f + 0.5) / 10000.000f);
+  EXPECT_GE(floor(result1.first * 10000.000f + 0.5) / 10000.000f, floor(result2.first * 10000.000f + 0.5) / 10000.000f);
 }
 
 /*
