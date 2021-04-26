@@ -254,14 +254,18 @@ void TrojanMap::PrintMenu() {
       // Read location names from CSV file
       vector<string> location_names;
       if (locations_filename == "")
-        location_names = {"Cardinal Gardens", "Coffee Bean1", "CVS"};
+        location_names = {"FlixBus USC", "The Mirage", "Driveway", "Saint James Park", "Tommy Trojan"};
       else
         location_names = ReadLocationsFromCSVFile(locations_filename);
 
       // Read dependencies from CSV file
       vector<vector<string>> dependencies;
       if (dependencies_filename == "")
-        dependencies = {{"Cardinal Gardens", "Coffee Bean1"}, {"Cardinal Gardens", "CVS"}, {"Coffee Bean1", "CVS"}};
+        dependencies = { {"The Mirage", "FlixBus USC"},
+          {"The Mirage", "Driveway"}, 
+          {"Driveway", "Tommy Trojan"},
+          {"Driveway", "FlixBus USC"}, 
+          {"FlixBus USC", "Saint James Park"}};
       else
         dependencies = ReadDependenciesFromCSVFile(dependencies_filename);
 
