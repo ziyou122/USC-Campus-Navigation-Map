@@ -595,6 +595,7 @@ double TrojanMap::CalculatePathLength(const vector<string> &path) {
  */
 vector<string> TrojanMap::Autocomplete(string name) {
   vector<string> results;
+  if (name.empty()) return results;
   transform(name.begin(), name.end(), name.begin(), ::tolower);
   for (auto pr : data) {
     string str(pr.second.name);
@@ -847,7 +848,7 @@ vector<string> TrojanMap::DeliveringTrojan(vector<string> &locations, vector<vec
   }
 
   // no feasible route exists
-  if(result.size() != locations.size()) {
+  if (result.size() != locations.size()) {
     return {};
   }
 
