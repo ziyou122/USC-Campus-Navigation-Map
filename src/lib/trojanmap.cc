@@ -168,7 +168,7 @@ void TrojanMap::PrintMenu() {
       PlotPoints(locations);
       cout << "Calculating ..." << endl;
       auto start = chrono::high_resolution_clock::now();
-      auto results = TravellingTrojan_2opt(locations);
+      auto results = TravellingTrojan(locations);
       auto stop = chrono::high_resolution_clock::now();
       auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
       CreateAnimation(results.second);
