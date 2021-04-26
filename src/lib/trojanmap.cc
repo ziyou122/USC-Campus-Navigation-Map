@@ -161,14 +161,16 @@ void TrojanMap::PrintMenu() {
         keys.push_back(x.first);
       }
       vector<string> locations;
-      // srand(time(NULL));
-      // for (int i = 0; i < num; i++) locations.push_back(keys[rand() % keys.size()]);
-      locations = {"123120189",  "4011837229", "4011837224", "2514542032", "2514541020",
-                   "1931345270", "4015477529", "214470792",  "63068532",   "6807909279"};
+      srand(time(NULL));
+      for (int i = 0; i < num; i++) locations.push_back(keys[rand() % keys.size()]);
+      // locations = {"123120189",  "4011837229", "4011837224", "2514542032", "2514541020",
+      //              "1931345270", "4015477529", "214470792",  "63068532",   "6807909279"};
+      // locations = {"123120189",  "6807909279", "63068532", "2514542032", "2514541020", "1931345270",
+      //                            "4015477529", "214470792",  "4011837224",   "4011837229"};
       PlotPoints(locations);
       cout << "Calculating ..." << endl;
       auto start = chrono::high_resolution_clock::now();
-      auto results = TravellingTrojan(locations);
+      auto results = TravellingTrojan_2opt(locations);
       auto stop = chrono::high_resolution_clock::now();
       auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
       CreateAnimation(results.second);
@@ -843,6 +845,12 @@ vector<string> TrojanMap::DeliveringTrojan(vector<string> &locations, vector<vec
       }
     }
   }
+
+  // no feasible route exists
+  if(result.size() != locations.size()) {
+    return {};
+  }
+
   return result;
 }
 

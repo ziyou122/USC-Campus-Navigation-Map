@@ -120,6 +120,61 @@ TEST(TrojanMapTest, CalculateShortestPath_Bellman_Ford2) {
   EXPECT_EQ(path, gt);
 }
 
+
+TEST(TrojanMapTest, TSP_2opt_1) {
+  
+  TrojanMap m;
+  m.CreateGraphFromCSVFile();
+  std::vector<std::string> input{"123120189",  "4011837229", "4011837224", "2514542032", "2514541020", "1931345270",
+                                 "4015477529", "214470792",  "63068532",   "6807909279"};  // Input location ids
+
+  auto result1 = m.TravellingTrojan_2opt(input);
+  std::cout << "My path length_2opt: " << result1.first << "miles" << std::endl;  // Print the result path lengths
+
+  auto result2 = m.TravellingTrojan(input);
+  std::cout << "My path length_force: " << result2.first << "miles" << std::endl;  // Print the result path lengths
+
+  EXPECT_GE(result1.first, result2.first);
+}
+
+TEST(TrojanMapTest, TSP_2opt_2) {
+  
+  TrojanMap m;
+  m.CreateGraphFromCSVFile();
+  std::vector<std::string> input{"123120189",  "6807909279", "63068532", "2514542032", "2514541020", "1931345270",
+                                 "4015477529", "214470792",  "4011837224",   "4011837229"};  // Input location ids
+  auto result1 = m.TravellingTrojan_2opt(input);
+  std::cout << "My path length_2opt: " << result1.first << "miles" << std::endl;  // Print the result path lengths
+
+  auto result2 = m.TravellingTrojan(input);
+  std::cout << "My path length_force: " << result2.first << "miles" << std::endl;  // Print the result path lengths
+
+  EXPECT_GE(result1.first, result2.first);
+}
+
+TEST(TrojanMapTest, TSP_2opt_3) {
+  
+  TrojanMap m;
+  m.CreateGraphFromCSVFile();
+  std::vector<std::string> input;
+
+  vector<string> keys;
+  for (auto x : m.data) {
+    keys.push_back(x.first);
+  }
+  srand(time(NULL));
+  for (int i = 0; i < 10; i++) input.push_back(keys[rand() % keys.size()]);
+
+  auto result1 = m.TravellingTrojan_2opt(input);
+  std::cout << "My path length_2opt: " << result1.first << "miles" << std::endl;  // Print the result path lengths
+
+  auto result2 = m.TravellingTrojan(input);
+  std::cout << "My path length_force: " << result2.first << "miles" << std::endl;  // Print the result path lengths
+
+  EXPECT_GE(result1.first, result2.first);
+}
+
+
 TEST(TrojanMapTest, ReadLocationsFromCSVFile) {
   TrojanMap m;
   vector<string> result;
@@ -142,7 +197,6 @@ TEST(TrojanMapTest, ReadDependenciesFromCSVFile) {
 
   int size = result.size();
   for (auto &item : result) {
-    std::cout << "size: " << item.size() << std::endl;
     for (int i = 0; i < item.size(); i++) {
       std::cout << item[i] << std::endl;
     }
@@ -152,7 +206,7 @@ TEST(TrojanMapTest, ReadDependenciesFromCSVFile) {
   EXPECT_EQ(size, 3);
 }
 
-TEST(TrojanMapTest, DeliveringTrojan) {
+TEST(TrojanMapTest, DeliveringTrojan_1) {
   TrojanMap m;
   vector<string> location;
   location = m.ReadLocationsFromCSVFile(
@@ -169,4 +223,51 @@ TEST(TrojanMapTest, DeliveringTrojan) {
   }
 
   EXPECT_EQ(true, true);
+}
+
+TEST(TrojanMapTest, DeliveringTrojan_2) {
+  TrojanMap m;
+
+  vector<string> location;
+  location = {"FlixBus USC", "The Mirage", "Driveway", "Saint James Park", "University Park"};
+  vector<vector<string>> dep;
+  dep = { {"The Mirage", "FlixBus USC"},
+          {"The Mirage", "Driveway"}, 
+          {"Driveway", "University Park"},
+          {"Driveway", "FlixBus USC"}, 
+          {"FlixBus USC", "Saint James Park"}};
+
+  vector<string> result;
+  result = m.DeliveringTrojan(location, dep);
+  for (auto &item : result) {
+    std::cout << item << std::endl;
+  }
+
+  vector<string> expected = {"The Mirage", "Driveway", "University Park", "FlixBus USC", "Saint James Park"};
+
+  EXPECT_EQ(result, expected);
+}
+
+TEST(TrojanMapTest, DeliveringTrojan_3) {
+  TrojanMap m;
+
+  vector<string> location;
+  location = {"FlixBus USC", "The Mirage", "Driveway", "Saint James Park", "University Park"};
+  vector<vector<string>> dep;
+  dep = { {"The Mirage", "FlixBus USC"}, 
+          {"The Mirage", "Driveway"}, 
+          {"Driveway", "University Park"}, 
+          {"Driveway", "FlixBus USC"}, 
+          {"FlixBus USC", "Saint James Park"}, 
+          {"Saint James Park", "Driveway"}};
+
+  vector<string> result;
+  result = m.DeliveringTrojan(location, dep);
+  for (auto &item : result) {
+    std::cout << item << std::endl;
+  }
+
+  vector<string> expected = {};
+
+  EXPECT_EQ(result, expected);
 }
