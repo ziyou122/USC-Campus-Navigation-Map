@@ -745,7 +745,7 @@ vector<string> TrojanMap::ReadLocationsFromCSVFile(string locations_filename) {
   vector<string> location_names_from_csv;
 
   getline(fin, line);
-  while(getline(fin, line)) { 
+  while (getline(fin, line)) {
     stringstream s(line);
     string location;
     getline(s, location, ',');
@@ -763,18 +763,17 @@ vector<string> TrojanMap::ReadLocationsFromCSVFile(string locations_filename) {
  * @return {vector<vector<string>>} : dependencies
  */
 vector<vector<string>> TrojanMap::ReadDependenciesFromCSVFile(string dependencies_filename) {
-
   fstream fin;
   fin.open(dependencies_filename, ios::in);
   string line, word;
   vector<vector<string>> dependencies_from_csv;
 
   getline(fin, line);
-  while(getline(fin, line)) { 
+  while (getline(fin, line)) {
     stringstream s(line);
     vector<string> locations;
     string location;
-    while(getline(s, location, ',')) {
+    while (getline(s, location, ',')) {
       locations.push_back(location);
     }
     dependencies_from_csv.push_back(locations);
@@ -797,39 +796,39 @@ vector<string> TrojanMap::DeliveringTrojan(vector<string> &locations, vector<vec
   vector<string> result;
   queue<string> zero_indegree;
 
-  //initialize total_map: key:location, value:indegree
-  for(int i = 0; i < locations.size(); i++) {
+  // initialize total_map: key:location, value:indegree
+  for (int i = 0; i < locations.size(); i++) {
     total_map.insert(pair<string, int>(locations[i], 0));
-  }   
-  for(int i = 0; i < dependencies.size(); i++) {
-    //std::cout << dependencies[i][1] << std::endl;
+  }
+  for (int i = 0; i < dependencies.size(); i++) {
+    // std::cout << dependencies[i][1] << std::endl;
     total_map[dependencies[i][1]]++;
   }
 
-  //initialize 0_indegree queue
-  for(auto &item : total_map){
-    if(item.second == 0) {
+  // initialize 0_indegree queue
+  for (auto &item : total_map) {
+    if (item.second == 0) {
       zero_indegree.push(item.first);
     }
   }
 
-  //update 0_indegree queue
+  // update 0_indegree queue
   while (!zero_indegree.empty()) {
     // take out a 0_indegree location
     string cur_location = zero_indegree.front();
     result.push_back(cur_location);
     zero_indegree.pop();
     // then decrease indegree of other locations related to it
-    for(auto &item : dependencies) {
-      if(item[0] == cur_location){
+    for (auto &item : dependencies) {
+      if (item[0] == cur_location) {
         // put the new 0_indegree location into queue
-        if(--total_map[item[1]] == 0) {
+        if (--total_map[item[1]] == 0) {
           zero_indegree.push(item[1]);
         }
       }
     }
   }
-  
+
   return result;
 }
 
@@ -888,17 +887,17 @@ void TrojanMap::TravellingTrojan_(vector<string> &ids, vector<vector<string>> &p
 }
 
 pair<double, vector<vector<string>>> TrojanMap::TravellingTrojan_2opt(vector<string> &location_ids) {
-  vector<vector<string>> paths; // store the progress
+  vector<vector<string>> paths;  // store the progress
   int size = location_ids.size();
 
-  //initialize the path
-  vector<string> initial_path;  
+  // initialize the path
+  vector<string> initial_path;
   double initial_length = 0;
   initial_path.assign(location_ids.begin(), location_ids.end());
   initial_path.push_back(location_ids[0]);
   paths.push_back(initial_path);
-  for(int i = 0; i < initial_path.size() - 1; i++) {
-    initial_length += CalculateDistance(data[initial_path[i]], data[initial_path[i+1]]);
+  for (int i = 0; i < initial_path.size() - 1; i++) {
+    initial_length += CalculateDistance(data[initial_path[i]], data[initial_path[i + 1]]);
   }
 
   // 2-opt, get a shorter path
@@ -908,18 +907,18 @@ pair<double, vector<vector<string>>> TrojanMap::TravellingTrojan_2opt(vector<str
   bool isImproved = true;
   int left;
   int right;
-  while(isImproved) {
+  while (isImproved) {
     isImproved = false;
     min_change = 0;
     left = 0;
     right = 0;
-    for(int i = 1; i < size - 1; i++) {
-      for(int j = i + 1; j < size; j++) {
-        change_length = CalculateDistance(data[cur_path[i - 1]], data[cur_path[j]]) 
-                      + CalculateDistance(data[cur_path[i]], data[cur_path[j + 1]]) 
-                      - CalculateDistance(data[cur_path[i - 1]], data[cur_path[i]])
-                      - CalculateDistance(data[cur_path[j]], data[cur_path[j + 1]]);    
-        if(change_length < min_change) {
+    for (int i = 1; i < size - 1; i++) {
+      for (int j = i + 1; j < size; j++) {
+        change_length = CalculateDistance(data[cur_path[i - 1]], data[cur_path[j]]) +
+                        CalculateDistance(data[cur_path[i]], data[cur_path[j + 1]]) -
+                        CalculateDistance(data[cur_path[i - 1]], data[cur_path[i]]) -
+                        CalculateDistance(data[cur_path[j]], data[cur_path[j + 1]]);
+        if (change_length < min_change) {
           min_change = change_length;
           left = i;
           right = j;
@@ -928,18 +927,18 @@ pair<double, vector<vector<string>>> TrojanMap::TravellingTrojan_2opt(vector<str
       }
     }
     // generate the shorter path and put it in paths
-    if(isImproved){
+    if (isImproved) {
       UpdatePaths(paths, cur_path, left, right);
     }
   }
 
-  //generate final length
+  // generate final length
   double final_length = 0;
-  for(int i = 0; i < paths[paths.size() - 1].size(); i++){
-    if(i == paths[paths.size() - 1].size() - 1) { 
-      final_length += CalculateDistance(data[paths[paths.size() - 1][i]], data[paths[paths.size() - 1][0]]); 
+  for (int i = 0; i < paths[paths.size() - 1].size(); i++) {
+    if (i == paths[paths.size() - 1].size() - 1) {
+      final_length += CalculateDistance(data[paths[paths.size() - 1][i]], data[paths[paths.size() - 1][0]]);
     } else {
-      final_length += CalculateDistance(data[paths[paths.size() - 1][i]], data[paths[paths.size() - 1][i + 1]]); 
+      final_length += CalculateDistance(data[paths[paths.size() - 1][i]], data[paths[paths.size() - 1][i + 1]]);
     }
   }
 
@@ -948,8 +947,8 @@ pair<double, vector<vector<string>>> TrojanMap::TravellingTrojan_2opt(vector<str
 }
 
 void TrojanMap::UpdatePaths(vector<vector<string>> &paths, vector<string> &cur_path, int left, int right) {
-    swap(cur_path[left], cur_path[right]);
-    paths.push_back(cur_path);
+  swap(cur_path[left], cur_path[right]);
+  paths.push_back(cur_path);
 }
 
 /**
@@ -960,7 +959,9 @@ void TrojanMap::UpdatePaths(vector<vector<string>> &paths, vector<string> &cur_p
  * @return {bool}: whether there is a cycle or not
  */
 bool TrojanMap::CycleDetection(vector<double> &square) {
-  vector<string> location_ids;
+  vector<string> location_ids, ids;
+  vector<vector<string>> vv;
+  bool has_cycle = false;
   for (auto &pr : data) {
     if (pr.second.lon > square[0] && pr.second.lon < square[1] && pr.second.lat > square[3] &&
         pr.second.lat < square[2])
@@ -973,19 +974,28 @@ bool TrojanMap::CycleDetection(vector<double> &square) {
   }
   for (auto id : location_ids) {
     if (!visited[id]) {
-      string s;  // null
-      if (CycleDetection_(id, s, visited)) return true;
+      string s;  // null string
+      ids.clear();
+      ids.push_back(id);
+      if (CycleDetection_(id, s, visited, ids, square, vv)) has_cycle = true;
     }
   }
-  return false;
+  //CreateAnimation(vv);
+  return has_cycle;
 }
 
-bool TrojanMap::CycleDetection_(string &id, string &parent, unordered_map<string, bool> &visited) {
+bool TrojanMap::CycleDetection_(string &id, string &parent, unordered_map<string, bool> &visited, vector<string> &ids,
+                                vector<double> &square, vector<vector<string>> &vv) {
   visited[id] = true;
   for (auto nb_id : data[id].neighbors) {
     if (!visited[nb_id]) {
-      if (CycleDetection_(nb_id, id, visited)) return true;
+      ids.push_back(nb_id);
+      if (CycleDetection_(nb_id, id, visited, ids, square, vv)) return true;
+      ids.pop_back();
     } else if (visited[nb_id] && nb_id != parent) {
+      ids.push_back(nb_id);
+      vv.push_back(ids);
+      ids.clear();
       return true;
     }
   }

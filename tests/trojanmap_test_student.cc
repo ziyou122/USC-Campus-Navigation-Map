@@ -62,3 +62,54 @@ TEST(TrojanMapTest, CalculateShortestPath_Bellman_Ford2) {
   std::cout << "GT path length: " << m.CalculatePathLength(gt) << "miles" << std::endl;
   EXPECT_EQ(path, gt);
 }
+
+TEST(TrojanMapTest, ReadLocationsFromCSVFile) {
+  TrojanMap m;
+  vector<string> result;
+  result = m.ReadLocationsFromCSVFile(
+      "/home/student/2021Spring_TrojanMap/final-project-HaoxinMa/input/topologicalsort_locations.csv");
+
+  int size = result.size();
+  for (int i = 0; i < result.size(); i++) {
+    std::cout << result[i] << std::endl;
+  }
+
+  EXPECT_EQ(size, 3);
+}
+
+TEST(TrojanMapTest, ReadDependenciesFromCSVFile) {
+  TrojanMap m;
+  vector<vector<string>> result;
+  result = m.ReadDependenciesFromCSVFile(
+      "/home/student/2021Spring_TrojanMap/final-project-HaoxinMa/input/topologicalsort_dependencies.csv");
+
+  int size = result.size();
+  for (auto &item : result) {
+    std::cout << "size: " << item.size() << std::endl;
+    for (int i = 0; i < item.size(); i++) {
+      std::cout << item[i] << std::endl;
+    }
+    std::cout << "============" << std::endl;
+  }
+
+  EXPECT_EQ(size, 3);
+}
+
+TEST(TrojanMapTest, DeliveringTrojan) {
+  TrojanMap m;
+  vector<string> location;
+  location = m.ReadLocationsFromCSVFile(
+      "/home/student/2021Spring_TrojanMap/final-project-HaoxinMa/input/topologicalsort_dependencies.csv");
+  vector<vector<string>> dep;
+  dep = m.ReadDependenciesFromCSVFile(
+      "/home/student/2021Spring_TrojanMap/final-project-HaoxinMa/input/topologicalsort_dependencies.csv");
+
+  vector<string> result;
+  result = m.DeliveringTrojan(location, dep);
+
+  for (auto &item : result) {
+    std::cout << item << std::endl;
+  }
+
+  EXPECT_EQ(true, true);
+}
