@@ -54,10 +54,13 @@ vector<string> TrojanMap::Autocomplete(string name) {
   ```
 
 Time complexity: O(v*l),
+
 where v is the number of vertices (locations), l is the max length of a location name 
 
-> Example: 
+> Example:
+>
 > Input: "k"
+>
 > Result:  
 >
 > ```
@@ -79,12 +82,16 @@ pair<double, double> TrojanMap::GetPosition(string name) {
 }
   ```
 Time complexity: O(v),
+
 where v is the number of vertices (locations)  
 
 > Example: 
+>
 > Input: "Kentucky Fried Chicken"
+>
 > Result:
 > <img src=".\img\2.png" style="zoom: 50%;" />
+>
 > Time taken:  0.791 ms
 
   ### Calculate Shortest Path  
@@ -116,10 +123,12 @@ Time complexity: O(v*e), where v is the number of vertices (locations), e is the
 >
 > **Result of Dijkstra:**
 > ![](.\img\3.png)
+>
 > Time taken: ?????????????????????????????? ms
 >
 > **Result of Bellman-ford:**
 > ![](.\img\3.png)
+>
 > Time taken: 22.176 ms
 
   ### Traveling Salesman Problem  
@@ -145,12 +154,16 @@ Time complexity:
 >
 > **Result of Brute-force:**
 > <img src="./img/4_1.png" style="zoom: 50%;" />
+>
 > The distance of the path is: 4.61742 miles
+>
 > Time taken: 166.724 ms
 >
 > **Result of 2-opt:**
 > <img src="./img/4_2.png" style="zoom: 50%;" />
+>
 > The distance of the path is: 4.61742 miles
+>
 > Time taken: 0.733 ms
 
   ### Cycle Detection  
@@ -169,7 +182,9 @@ Time complexity:  O(v+e), where v is the number of vertices (locations), e is th
 >
 > Result: 
 > ![](./img/5.png)
+>
 > There exists at least one cycle in the subgraph
+>
 > Time taken: 37.350 ms
 
   ### Topological Sort  
@@ -185,7 +200,7 @@ Time complexity:
 > Input: 
 >
 > Result: 
-> <image>
+> 
 > Time taken:  
 
 ## Source Code Dependencies 
