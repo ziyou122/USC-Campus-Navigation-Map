@@ -2,6 +2,6 @@
 /.vscode
 /opencv
 .DS_Store
-# /tests/trojanmap_test.cc
-/src/lib/output.avi
+tests/trojanmap_test.cc
 /gt
+src/lib/output.avi

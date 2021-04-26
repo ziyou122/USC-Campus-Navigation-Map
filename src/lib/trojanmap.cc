@@ -161,8 +161,10 @@ void TrojanMap::PrintMenu() {
         keys.push_back(x.first);
       }
       vector<string> locations;
-      srand(time(NULL));
-      for (int i = 0; i < num; i++) locations.push_back(keys[rand() % keys.size()]);
+      // srand(time(NULL));
+      // for (int i = 0; i < num; i++) locations.push_back(keys[rand() % keys.size()]);
+      locations = {"123120189",  "4011837229", "4011837224", "2514542032", "2514541020",
+                   "1931345270", "4015477529", "214470792",  "63068532",   "6807909279"};
       PlotPoints(locations);
       cout << "Calculating ..." << endl;
       auto start = chrono::high_resolution_clock::now();
@@ -980,7 +982,7 @@ bool TrojanMap::CycleDetection(vector<double> &square) {
       if (CycleDetection_(id, s, visited, ids, square, vv)) has_cycle = true;
     }
   }
-  //CreateAnimation(vv);
+  // CreateAnimation(vv);
   return has_cycle;
 }
 
