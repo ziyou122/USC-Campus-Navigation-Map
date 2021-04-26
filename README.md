@@ -122,12 +122,12 @@ Time complexity: O(v*e), where v is the number of vertices (locations), e is the
 > Input: Target, Popeyes Louisiana Kitchen
 >
 > **Result of Dijkstra:**
-> ![](.\img\3.png)
+> <img src=".\img\3.png" style="zoom:120%;"/>
 >
 > Time taken: ?????????????????????????????? ms
 >
 > **Result of Bellman-ford:**
-> ![](.\img\3.png)
+> <img src=".\img\3.png" style="zoom:120%;" />
 >
 > Time taken: 22.176 ms
 
@@ -143,7 +143,10 @@ void TrojanMap::TravellingTrojan_(vector<string> &ids, vector<vector<string>> &p
  ![](./img/4_1_permutation.png)
 
 Solving TSP using brute-force is just like a permutation which is shown above.
-Time complexity:  O((v-1)!), where v is the number of vertices (locations)
+
+Time complexity:  O((v-1)!),
+
+where v is the number of vertices (locations)
 
   #### 2-opt  
 Time complexity: 
