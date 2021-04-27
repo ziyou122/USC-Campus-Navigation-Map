@@ -99,12 +99,11 @@ where v is the number of vertices (locations)
   ```c++
   ... 
 while (!q.empty()) { 
-  ...                                     // O(v)
-  for (auto nb_id : data[id].neighbors) { // O(e)
-      ...
-      q.push(make_pair(new_dis, nb_id));  // O(log(e))
+    ...                                     // O(v)
+    for (auto nb_id : data[id].neighbors) { // O(e)
+        ...
+        q.push(make_pair(new_dis, nb_id));  // O(log(e))
     }
-  }
 }
 ...
   ```
