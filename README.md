@@ -234,13 +234,17 @@ where v is the number of vertices (locations), e is the number of edges (paths)
 
 > Example:
 > 
-> Input: {"Cardinal Gardens", "Coffee Bean1", "CVS"},  {{"Cardinal Gardens", "Coffee Bean1"}, {"Cardinal Gardens", "CVS"}, {"Coffee Bean1", "CVS"}}
+> Input: {"FlixBus USC", "The Mirage", "Driveway", "Saint James Park", "Tommy Trojan"},  {{"Cardinal Gardens", "Coffee Bean1"}, {"Cardinal Gardens", "CVS"}, {"Coffee Bean1", "CVS"}}
 >
-> Result: { "Cardinal Gardens", "Coffee Bean1", "CVS" } 
+> Result: {{"The Mirage", "FlixBus USC"},
+          {"The Mirage", "Driveway"}, 
+          {"Driveway", "Tommy Trojan"},
+          {"Driveway", "FlixBus USC"}, 
+          {"FlixBus USC", "Saint James Park"}} 
 > 
 >  ![](./img/6.png)
 > 
-> Time taken:  42938 microseconds
+> Time taken:  13 microseconds
 ## Source Code Dependencies 
 
 - ### gcc
