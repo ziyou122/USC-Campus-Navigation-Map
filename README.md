@@ -3,7 +3,12 @@
 This is the final project of EE599 (Computer Principles) in Spring 2021 at University of Southern California.
 
 Author: Haoxin Ma, Ziyou Geng  
-Instructor: Arash Saifhashemi 
+
+## NOTE
+
+We have our self-designed GUI using Qt for an extra 10 points for this project, which has already got the permission from Prof Arash Saifhashemi.
+
+The repo link: https://github.com/HaoxinMa/Trojan-Map
 
 ## Overview  
 
