@@ -96,7 +96,22 @@ where v is the number of vertices (locations)
 
   ### Calculate Shortest Path  
   #### Dijkstra
+  ```c++
+  ... 
+while (!q.empty()) { 
+  ...                                     // O(v)
+  for (auto nb_id : data[id].neighbors) { // O(e)
+      ...
+      q.push(make_pair(new_dis, nb_id));  // O(log(e))
+    }
+  }
+}
+...
+  ```
+  
+Time complexity: O(v + e*log(e)),
 
+where v is the number of vertices (locations), e is the number of edges (paths) 
 
 
   #### Bellman-ford  
@@ -115,7 +130,9 @@ vector<string> TrojanMap::CalculateShortestPath_Bellman_Ford(string location1_na
     ...
 }
   ```
-Time complexity: O(v*e), where v is the number of vertices (locations), e is the number of edges (paths) 
+Time complexity: O(v*e),
+
+where v is the number of vertices (locations), e is the number of edges (paths) 
 
 > Example: 
 >
@@ -181,7 +198,10 @@ bool TrojanMap::CycleDetection_(string &id, string &parent, unordered_map<string
 ```
 
 Cycle detection is a kind of DFS.
-Time complexity:  O(v+e), where v is the number of vertices (locations), e is the number of edges (paths) 
+
+Time complexity:  O(v+e),
+
+where v is the number of vertices (locations), e is the number of edges (paths) 
 
 > Example:
 >
@@ -201,7 +221,9 @@ Time complexity:  O(v+e), where v is the number of vertices (locations), e is th
 vector<string> TrojanMap::DeliveringTrojan(vector<string> &locations, vector<vector<string>> &dependencies);
 ```
 
-Time complexity:  O(n * m), where n is the number of vertices (locations), m is the number of edges (paths) 
+Time complexity:  O(n * m),
+
+where n is the number of vertices (locations), m is the number of edges (paths) 
 
 
 > Example:
