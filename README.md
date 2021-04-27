@@ -97,15 +97,17 @@ where v is the number of vertices (locations)
   ### Calculate Shortest Path  
   #### Dijkstra
   ```c++
-  ... 
-while (!q.empty()) { 
-    ...                                     // O(v)
-    for (auto nb_id : data[id].neighbors) { // O(e)
-        ...
-        q.push(make_pair(new_dis, nb_id));  // O(log(e))
+vector<string> TrojanMap::CalculateShortestPath_Dijkstra(string location1_name, string location2_name) {
+    ... 
+    while (!q.empty()) { 
+        ...                                     // O(v)
+        for (auto nb_id : data[id].neighbors) { // O(e)
+            ...
+            q.push(make_pair(new_dis, nb_id));  // O(log(e))
+        }
     }
-}
 ...
+}
   ```
   
 Time complexity: O(v + e*log(e)),
