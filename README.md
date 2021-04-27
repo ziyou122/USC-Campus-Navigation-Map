@@ -106,7 +106,7 @@ vector<string> TrojanMap::CalculateShortestPath_Dijkstra(string location1_name, 
             q.push(make_pair(new_dis, nb_id));  // O(log(e))
         }
     }
-...
+    ...
 }
   ```
   
@@ -222,9 +222,9 @@ where v is the number of vertices (locations), e is the number of edges (paths)
 vector<string> TrojanMap::DeliveringTrojan(vector<string> &locations, vector<vector<string>> &dependencies);
 ```
 
-Time complexity:  O(n * m),
+Time complexity:  O(v*e),
 
-where n is the number of vertices (locations), m is the number of edges (paths) 
+where v is the number of vertices (locations), e is the number of edges (paths) 
 
 
 > Example:
