@@ -201,16 +201,19 @@ Time complexity:  O(v+e), where v is the number of vertices (locations), e is th
 vector<string> TrojanMap::DeliveringTrojan(vector<string> &locations, vector<vector<string>> &dependencies);
 ```
 
-Time complexity: 
+Time complexity:  O(n * m), where n is the number of vertices (locations), m is the number of edges (paths) 
+
 
 > Example:
->
-> Input: 
->
-> Result: 
 > 
-> Time taken:  
-
+> Input: {"Cardinal Gardens", "Coffee Bean1", "CVS"},  
+>        {{"Coffee Bean1", "Cardinal Gardens"}, {"CVS", "Cardinal Gardens"}, {"CVS", "Coffee Bean1"}}
+>
+> Result: { "CVS", "Coffee Bean1", "Cardinal Gardens" } 
+> 
+>  ![](./img/5.png)
+> 
+> Time taken:  42938 microseconds
 ## Source Code Dependencies 
 
 - ### gcc
