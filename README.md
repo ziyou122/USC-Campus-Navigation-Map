@@ -234,8 +234,10 @@ where v is the number of vertices (locations), e is the number of edges (paths)
 
 > Example:
 > 
-> Input: {"FlixBus USC", "The Mirage", "Driveway", "Saint James Park", "Tommy Trojan"},  {{"The Mirage", "FlixBus USC"},
-         {{"The Mirage", "Driveway"}, 
+> Input: locations: {"FlixBus USC", "The Mirage", "Driveway", "Saint James Park", "Tommy Trojan"},  
+>        dependencies: 
+>        {{"The Mirage", "FlixBus USC"},
+          {"The Mirage", "Driveway"}, 
           {"Driveway", "Tommy Trojan"},
           {"Driveway", "FlixBus USC"}, 
           {"FlixBus USC", "Saint James Park"}} 
