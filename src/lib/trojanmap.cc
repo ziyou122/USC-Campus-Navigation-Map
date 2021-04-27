@@ -161,13 +161,8 @@ void TrojanMap::PrintMenu() {
         keys.push_back(x.first);
       }
       vector<string> locations;
-      // srand(time(NULL));
-      // for (int i = 0; i < num; i++) locations.push_back(keys[rand() % keys.size()]);
-      locations = {
-          "348123012",  "1870797772", "5617976418", "21302801",   "1855143774", "1855150054",
-          "1855143763", "1855143760", "1855143759", "1855143758", "1855173112"
-      };
-
+      srand(time(NULL));
+      for (int i = 0; i < num; i++) locations.push_back(keys[rand() % keys.size()]);
       PlotPoints(locations);
       cout << "Calculating ..." << endl;
       auto start = chrono::high_resolution_clock::now();
