@@ -103,13 +103,13 @@ where v is the number of vertices (locations)
   ```c++
 vector<string> TrojanMap::CalculateShortestPath_Bellman_Ford(string location1_name, string location2_name) {
     ...
-        for (int i = 0; i < data.size() - 1; i++) {              // O(v)
+        for (int i = 0; i < data.size() - 1; i++) {          // O(v)
             ...
-                for (auto &id : updated_pre) {                   // -+
-                                                                 //  +-> O(e)
-                    for (auto &nb_id : data[id].neighbors) {...} // -+
-                    ...
-                }
+            for (auto &id : updated_pre) {                   // -+
+                                                             //  +-> O(e)
+                for (auto &nb_id : data[id].neighbors) {...} // -+
+                ...
+            }
             ...
         }
     ...
