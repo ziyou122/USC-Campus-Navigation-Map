@@ -206,9 +206,9 @@ Time complexity:  O(n * m), where n is the number of vertices (locations), m is 
 
 > Example:
 > 
-> Input: {"Cardinal Gardens", "Coffee Bean1", "CVS"},  {{"Coffee Bean1", "Cardinal Gardens"}, {"CVS", "Cardinal Gardens"}, {"CVS", "Coffee Bean1"}}
+> Input: {"Cardinal Gardens", "Coffee Bean1", "CVS"},  {{"Cardinal Gardens", "Coffee Bean1"}, {"Cardinal Gardens", "CVS"}, {"Coffee Bean1", "CVS"}}
 >
-> Result: { "CVS", "Coffee Bean1", "Cardinal Gardens" } 
+> Result: { "Cardinal Gardens", "Coffee Bean1", "CVS" } 
 > 
 >  ![](./img/6.png)
 > 
