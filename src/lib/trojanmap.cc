@@ -492,6 +492,7 @@ void TrojanMap::CreateAnimation(vector<vector<string>> path_progress) {
                cv::Scalar(0, 255, 0), LINE_WIDTH);
     }
     video.write(img);
+    cv::startWindowThread();
     cv::imshow("TrojanMap", img);
     cv::waitKey(1);
   }
@@ -987,13 +988,11 @@ void TrojanMap::UpdatePaths(vector<vector<string>> &paths, vector<string> &cur_p
 bool TrojanMap::CycleDetection(vector<double> &square) {
   vector<string> location_ids, ids;
   vector<vector<string>> vv;
-  bool has_cycle = false;
   for (auto &pr : data) {
     if (pr.second.lon > square[0] && pr.second.lon < square[1] && pr.second.lat > square[3] &&
         pr.second.lat < square[2])
       location_ids.push_back(pr.first);
   }
-  // PlotPointsandEdges(location_ids, square);
   unordered_map<string, bool> visited;
   for (auto id : location_ids) {
     visited[id] = false;
@@ -1003,11 +1002,13 @@ bool TrojanMap::CycleDetection(vector<double> &square) {
       string s;  // null string
       ids.clear();
       ids.push_back(id);
-      if (CycleDetection_(id, s, visited, ids, square, vv)) has_cycle = true;
+      if (CycleDetection_(id, s, visited, ids, square, vv))
+        return true;
+      else
+        ids.clear();
     }
   }
-  // CreateAnimation(vv);
-  return has_cycle;
+  return false;
 }
 
 bool TrojanMap::CycleDetection_(string &id, string &parent, unordered_map<string, bool> &visited, vector<string> &ids,
@@ -1021,7 +1022,7 @@ bool TrojanMap::CycleDetection_(string &id, string &parent, unordered_map<string
     } else if (visited[nb_id] && nb_id != parent) {
       ids.push_back(nb_id);
       vv.push_back(ids);
-      ids.clear();
+      // CreateAnimation(vv);
       return true;
     }
   }

@@ -4,11 +4,17 @@ This is the final project of EE599 (Computer Principles) in Spring 2021 at Unive
 
 Author: Haoxin Ma, Ziyou Geng  
 
-## NOTE
+## To Dear TAs
 
 We have our self-designed GUI using Qt for an extra 10 points for this project, which has already got the permission from Prof Arash Saifhashemi.
 
 The repo link: https://github.com/HaoxinMa/Trojan-Map
+
+Here are some output preview.
+
+![img](https://user-images.githubusercontent.com/61277885/113846032-a4dafb00-97c8-11eb-8ba9-3b28b566157e.png)
+
+![img](https://user-images.githubusercontent.com/61277885/113848234-d654c600-97ca-11eb-8b36-ad71781dd2f8.png)
 
 ## Overview  
 
@@ -114,7 +120,7 @@ vector<string> TrojanMap::CalculateShortestPath_Dijkstra(string location1_name, 
     ...
 }
   ```
-  
+
 Time complexity: O(v + e*log(e)),
 
 where v is the number of vertices (locations), e is the number of edges (paths) 
