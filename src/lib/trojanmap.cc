@@ -548,7 +548,7 @@ string TrojanMap::GetName(string id) { return data[id].name; }
  * @param  {string} id            : location id
  * @return {vector<string>}  : neighbor ids
  */
-vector<string> TrojanMap::GetNeighborIDs(string id) { return {}; }
+vector<string> TrojanMap::GetNeighborIDs(string id) { return data[id].neighbors; }
 
 /**
  * CalculateDistance: Get the distance between 2 nodes.
@@ -1022,7 +1022,7 @@ bool TrojanMap::CycleDetection_(string &id, string &parent, unordered_map<string
     } else if (visited[nb_id] && nb_id != parent) {
       ids.push_back(nb_id);
       vv.push_back(ids);
-      // CreateAnimation(vv);
+      CreateAnimation(vv);
       return true;
     }
   }

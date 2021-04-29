@@ -12,12 +12,12 @@ TEST(TrojanMapTest, Autocomplete) {
 
   // Test case 1: null input
   auto names = m.Autocomplete("");
-  std::vector<std::string> gt1;
+  std::vector<std::string> gt1;  // expect a null vector
   EXPECT_EQ(names, gt1);
 
   // Test case 2: random input
   names = m.Autocomplete("hahahaha");
-  std::vector<std::string> gt2;
+  std::vector<std::string> gt2;  // expect a null vector
   EXPECT_EQ(names, gt2);
 
   // Test case 3
@@ -52,14 +52,13 @@ TEST(TrojanMapTest, CalculateShortestPath_Dijkstra1) {
   TrojanMap m;
   m.CreateGraphFromCSVFile();
   auto path = m.CalculateShortestPath_Dijkstra("Moreton Fig", "Mercado la Paloma");
-  std::vector<std::string> gt;  // Expected path
+  std::vector<std::string> gt;  // expect a null vector
   std::cout << "My path length: " << m.CalculatePathLength(path) << "miles" << std::endl;
   std::cout << "GT path length: " << m.CalculatePathLength(gt) << "miles" << std::endl;
   EXPECT_EQ(path, gt);
 
   // Reverse
   path = m.CalculateShortestPath_Dijkstra("Mercado la Paloma", "Moreton Fig");
-  std::reverse(gt.begin(), gt.end());
   std::cout << "My path length: " << m.CalculatePathLength(path) << "miles" << std::endl;
   std::cout << "GT path length: " << m.CalculatePathLength(gt) << "miles" << std::endl;
   EXPECT_EQ(path, gt);
@@ -70,13 +69,12 @@ TEST(TrojanMapTest, CalculateShortestPath_Dijkstra2) {
   TrojanMap m;
   m.CreateGraphFromCSVFile();
   auto path = m.CalculateShortestPath_Dijkstra("Moreton Fig", "hahahaha");  // random input
-  std::vector<std::string> gt;                                              // Expected path
+  std::vector<std::string> gt;                                              // expect a null vector
   std::cout << "My path length: " << m.CalculatePathLength(path) << "miles" << std::endl;
   std::cout << "GT path length: " << m.CalculatePathLength(gt) << "miles" << std::endl;
   EXPECT_EQ(path, gt);
 
   path = m.CalculateShortestPath_Dijkstra("", "Moreton Fig");  // null input
-  std::reverse(gt.begin(), gt.end());
   std::cout << "My path length: " << m.CalculatePathLength(path) << "miles" << std::endl;
   std::cout << "GT path length: " << m.CalculatePathLength(gt) << "miles" << std::endl;
   EXPECT_EQ(path, gt);
@@ -94,11 +92,12 @@ TEST(TrojanMapTest, CalculateShortestPath_Dijkstra3) {
       "1855143763", "1855143760", "1855143759", "1855143758", "1855173112", "1855143756", "1855173115", "1855147948",
       "123166179",  "1855173116", "1862312661", "1862312636", "1862312582", "933930930",  "1855150091", "123182692",
       "1855137491", "122684539",  "348121025",  "6815190428", "122670230",  "4020099362", "4020099359", "123053759",
-      "4020099352", "6512300966"};  // Expected path
+      "4020099352", "6512300966"};
   std::cout << "My path length: " << m.CalculatePathLength(path) << "miles" << std::endl;
   std::cout << "GT path length: " << m.CalculatePathLength(gt) << "miles" << std::endl;
   EXPECT_EQ(path, gt);
 
+  // Reverse
   path = m.CalculateShortestPath_Dijkstra("Vermont 38 Leighton Metro 204 Northbound05637", "Metro 40");
   std::reverse(gt.begin(), gt.end());
   std::cout << "My path length: " << m.CalculatePathLength(path) << "miles" << std::endl;
@@ -111,14 +110,13 @@ TEST(TrojanMapTest, CalculateShortestPath_Bellman_Ford1) {
   TrojanMap m;
   m.CreateGraphFromCSVFile();
   auto path = m.CalculateShortestPath_Bellman_Ford("Moreton Fig", "Mercado la Paloma");
-  std::vector<std::string> gt;  // Expected path
+  std::vector<std::string> gt;  // expect a null vector
   std::cout << "My path length: " << m.CalculatePathLength(path) << "miles" << std::endl;
   std::cout << "GT path length: " << m.CalculatePathLength(gt) << "miles" << std::endl;
   EXPECT_EQ(path, gt);
 
   // Reverse
   path = m.CalculateShortestPath_Bellman_Ford("Mercado la Paloma", "Moreton Fig");
-  std::reverse(gt.begin(), gt.end());
   std::cout << "My path length: " << m.CalculatePathLength(path) << "miles" << std::endl;
   std::cout << "GT path length: " << m.CalculatePathLength(gt) << "miles" << std::endl;
   EXPECT_EQ(path, gt);
@@ -129,13 +127,12 @@ TEST(TrojanMapTest, CalculateShortestPath_Bellman_Ford2) {
   TrojanMap m;
   m.CreateGraphFromCSVFile();
   auto path = m.CalculateShortestPath_Bellman_Ford("Moreton Fig", "giuahoiawgjpogd");  // random input
-  std::vector<std::string> gt;                                                         // Expected path
+  std::vector<std::string> gt;                                                         // expect a null vector
   std::cout << "My path length: " << m.CalculatePathLength(path) << "miles" << std::endl;
   std::cout << "GT path length: " << m.CalculatePathLength(gt) << "miles" << std::endl;
   EXPECT_EQ(path, gt);
 
   path = m.CalculateShortestPath_Bellman_Ford("", "Moreton Fig");  // null input
-  std::reverse(gt.begin(), gt.end());
   std::cout << "My path length: " << m.CalculatePathLength(path) << "miles" << std::endl;
   std::cout << "GT path length: " << m.CalculatePathLength(gt) << "miles" << std::endl;
   EXPECT_EQ(path, gt);
@@ -153,7 +150,7 @@ TEST(TrojanMapTest, CalculateShortestPath_Bellman_Ford3) {
       "1855143763", "1855143760", "1855143759", "1855143758", "1855173112", "1855143756", "1855173115", "1855147948",
       "123166179",  "1855173116", "1862312661", "1862312636", "1862312582", "933930930",  "1855150091", "123182692",
       "1855137491", "122684539",  "348121025",  "6815190428", "122670230",  "4020099362", "4020099359", "123053759",
-      "4020099352", "6512300966"};  // Expected path
+      "4020099352", "6512300966"};
   std::cout << "My path length: " << m.CalculatePathLength(path) << "miles" << std::endl;
   std::cout << "GT path length: " << m.CalculatePathLength(gt) << "miles" << std::endl;
   EXPECT_EQ(path, gt);
