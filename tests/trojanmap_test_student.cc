@@ -280,3 +280,18 @@ TEST(TrojanMapTest, DeliveringTrojan_3) {
   vector<string> expected = {};
   EXPECT_EQ(result, expected);
 }
+
+TEST(TrojanMapTest, DeliveringTrojan_4) {
+  TrojanMap m;
+  vector<string> location;
+  location = {};
+  vector<vector<string>> dep;
+  dep = {};
+  vector<string> result;
+  result = m.DeliveringTrojan(location, dep);
+  for (auto &item : result) {
+    std::cout << item << std::endl;
+  }
+  vector<string> expected = {};
+  EXPECT_EQ(result, expected);
+}

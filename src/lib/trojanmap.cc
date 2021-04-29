@@ -922,7 +922,7 @@ pair<double, vector<vector<string>>> TrojanMap::TravellingTrojan_2opt(vector<str
   double initial_length = 0;
   initial_path.assign(location_ids.begin(), location_ids.end());
   initial_path.push_back(location_ids[0]);
-  paths.push_back(initial_path);~
+  paths.push_back(initial_path);
   for (int i = 0; i < initial_path.size() - 1; i++) {
     initial_length += CalculateDistance(data[initial_path[i]], data[initial_path[i + 1]]);
   }
