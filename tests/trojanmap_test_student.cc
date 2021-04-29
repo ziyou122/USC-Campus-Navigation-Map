@@ -161,13 +161,19 @@ TEST(TrojanMapTest, TSP_2opt_3) {
   srand(time(NULL));
   for (int i = 0; i < 10; i++) input.push_back(keys[rand() % keys.size()]);
 
+   std::cout << "11111" << std::endl; 
+
   auto result1 = m.TravellingTrojan_2opt(input);
   std::cout << "My path length_2opt: " << result1.first << "miles" << std::endl;  // Print the result path lengths
 
-  auto result2 = m.TravellingTrojan(input);
-  std::cout << "My path length_force: " << result2.first << "miles" << std::endl;  // Print the result path lengths
+  std::cout << "22222" << std::endl; 
 
-  EXPECT_GE(floor(result1.first * 100000.000f + 0.5) / 10000.000f, floor(result2.first * 100000.000f + 0.5) / 10000.000f);
+  auto result2 = m.TravellingTrojan(input);
+  std::cout << "My path length_force: " << result2.first * 100000 << "miles" << std::endl;  // Print the result path lengths
+
+   std::cout << "34444" << std::endl;
+
+  EXPECT_GE(result1.first * 100000, result2.first * 100000);
 }
 
 /*
