@@ -16,6 +16,47 @@ Here are some output preview.
 
 ![img](https://user-images.githubusercontent.com/61277885/113848234-d654c600-97ca-11eb-8b36-ad71781dd2f8.png)
 
+## Overview  
+
+  ### Functionalities
+
+  - Auto Complete location names
+  - Find Coordinates
+  - Calculate Shortest Path
+    - Dijkstra
+    - Bellman-ford
+  - Traveling Salesman Problem
+    - Brute-force
+    - 2-opt
+  - Cycle Detection
+  - Topological Sort
+
+  ### Data structure  
+
+  ```c++
+class Node {
+    public:
+    string id;                 // A unique id assigned to each point
+    double lat;                // Latitude
+    double lon;                // Longitude
+    string name;               // Name of the location
+    vector<string> neighbors;  // List of the ids of all neighbor points
+};
+
+class TrojanMap {
+    public:
+    map<string, Node> data;    // A map of ids to Nodes
+    ...
+};
+  ```
+
+Data of each node is stored in map.csv (take "Tommy Trojan" for example)
+
+```
+id,lat,lon,name,neighbor
+2305853438,34.0205678,-118.2854346,Tommy Trojan,['2305853437']
+```
+
 ## Source Code Dependencies 
 
 - ### gcc
@@ -70,46 +111,6 @@ Here are some output preview.
 `./opencv.BUILD`	OpenCV build file  
 `./WORKSPACE`		bazel build file  
 
-## Overview  
-
-  ### Functionalities
-
-  - Auto Complete location names
-  - Find Coordinates
-  - Calculate Shortest Path
-    - Dijkstra
-    - Bellman-ford
-  - Traveling Salesman Problem
-    - Brute-force
-    - 2-opt
-  - Cycle Detection
-  - Topological Sort
-
-  ### Data structure  
-
-  ```c++
-class Node {
-    public:
-    string id;                 // A unique id assigned to each point
-    double lat;                // Latitude
-    double lon;                // Longitude
-    string name;               // Name of the location
-    vector<string> neighbors;  // List of the ids of all neighbor points
-};
-
-class TrojanMap {
-    public:
-    map<string, Node> data;    // A map of ids to Nodes
-    ...
-};
-  ```
-
-Data of each node is stored in map.csv (take "Tommy Trojan" for example)
-
-```
-id,lat,lon,name,neighbor
-2305853438,34.0205678,-118.2854346,Tommy Trojan,['2305853437']
-```
 
 ## Time Complexity Analysis and Results 
 
@@ -222,7 +223,7 @@ where v is the number of vertices (locations), e is the number of edges (paths)
 >
 > **Result of Dijkstra:**
 >
-> <img src=".\img\3.png" style="zoom:120%;"/>
+> <img src=".\img\3.png" style="zoom:150%;"/>
 >
 > The distance of the path is: 0.74044 miles
 >
@@ -230,7 +231,7 @@ where v is the number of vertices (locations), e is the number of edges (paths)
 >
 > **Result of Bellman-ford:**
 >
-> <img src=".\img\3.png" style="zoom:120%;" />
+> <img src=".\img\3.png" style="zoom:150%;" />
 >
 > The distance of the path is: 0.74044 miles
 >
