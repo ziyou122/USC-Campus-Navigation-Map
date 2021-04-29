@@ -163,14 +163,10 @@ void TrojanMap::PrintMenu() {
       vector<string> locations;
       srand(time(NULL));
       for (int i = 0; i < num; i++) locations.push_back(keys[rand() % keys.size()]);
-      // locations = {"123120189",  "4011837229", "4011837224", "2514542032", "2514541020",
-      //              "1931345270", "4015477529", "214470792",  "63068532",   "6807909279"};
-      // locations = {"123120189",  "6807909279", "63068532", "2514542032", "2514541020", "1931345270",
-      //                            "4015477529", "214470792",  "4011837224",   "4011837229"};
       PlotPoints(locations);
       cout << "Calculating ..." << endl;
       auto start = chrono::high_resolution_clock::now();
-      auto results = TravellingTrojan_2opt(locations);
+      auto results = TravellingTrojan(locations);
       auto stop = chrono::high_resolution_clock::now();
       auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
       CreateAnimation(results.second);
@@ -261,11 +257,11 @@ void TrojanMap::PrintMenu() {
       // Read dependencies from CSV file
       vector<vector<string>> dependencies;
       if (dependencies_filename == "")
-        dependencies = { {"The Mirage", "FlixBus USC"},
-          {"The Mirage", "Driveway"}, 
-          {"Driveway", "Tommy Trojan"},
-          {"Driveway", "FlixBus USC"}, 
-          {"FlixBus USC", "Saint James Park"}};
+        dependencies = {{"The Mirage", "FlixBus USC"},
+                        {"The Mirage", "Driveway"},
+                        {"Driveway", "Tommy Trojan"},
+                        {"Driveway", "FlixBus USC"},
+                        {"FlixBus USC", "Saint James Park"}};
       else
         dependencies = ReadDependenciesFromCSVFile(dependencies_filename);
 
@@ -496,6 +492,7 @@ void TrojanMap::CreateAnimation(vector<vector<string>> path_progress) {
                cv::Scalar(0, 255, 0), LINE_WIDTH);
     }
     video.write(img);
+    cv::startWindowThread();
     cv::imshow("TrojanMap", img);
     cv::waitKey(1);
   }
@@ -551,7 +548,7 @@ string TrojanMap::GetName(string id) { return data[id].name; }
  * @param  {string} id            : location id
  * @return {vector<string>}  : neighbor ids
  */
-vector<string> TrojanMap::GetNeighborIDs(string id) { return {}; }
+vector<string> TrojanMap::GetNeighborIDs(string id) { return data[id].neighbors; }
 
 /**
  * CalculateDistance: Get the distance between 2 nodes.
@@ -618,6 +615,7 @@ vector<string> TrojanMap::Autocomplete(string name) {
  * @return {pair<double,double>}  : (lat, lon)
  */
 pair<double, double> TrojanMap::GetPosition(string name) {
+  if (name.empty()) return make_pair(-1, -1);
   for (auto pr : data) {
     if (pr.second.name == name) {
       return make_pair(GetLat(pr.first), GetLon(pr.first));
@@ -644,6 +642,7 @@ Node TrojanMap::GetNode(string name) {
 }
 
 string TrojanMap::GetID(const string &name) {
+  if (name.empty()) return "-1";
   for (auto &pr : data) {
     if (pr.second.name == name) {
       return pr.first;
@@ -869,6 +868,7 @@ vector<string> TrojanMap::DeliveringTrojan(vector<string> &locations, vector<vec
  */
 pair<double, vector<vector<string>>> TrojanMap::TravellingTrojan(vector<string> &location_ids) {
   vector<vector<string>> path;
+  if (location_ids.size() <= 1) return make_pair(0, path);
   vector<string> cur_path;
   double min_dis = 0, cur_dis = 0;
   TravellingTrojan_(location_ids, path, cur_path, cur_dis, min_dis);
@@ -988,13 +988,11 @@ void TrojanMap::UpdatePaths(vector<vector<string>> &paths, vector<string> &cur_p
 bool TrojanMap::CycleDetection(vector<double> &square) {
   vector<string> location_ids, ids;
   vector<vector<string>> vv;
-  bool has_cycle = false;
   for (auto &pr : data) {
     if (pr.second.lon > square[0] && pr.second.lon < square[1] && pr.second.lat > square[3] &&
         pr.second.lat < square[2])
       location_ids.push_back(pr.first);
   }
-  // PlotPointsandEdges(location_ids, square);
   unordered_map<string, bool> visited;
   for (auto id : location_ids) {
     visited[id] = false;
@@ -1004,11 +1002,13 @@ bool TrojanMap::CycleDetection(vector<double> &square) {
       string s;  // null string
       ids.clear();
       ids.push_back(id);
-      if (CycleDetection_(id, s, visited, ids, square, vv)) has_cycle = true;
+      if (CycleDetection_(id, s, visited, ids, square, vv))
+        return true;
+      else
+        ids.clear();
     }
   }
-  // CreateAnimation(vv);
-  return has_cycle;
+  return false;
 }
 
 bool TrojanMap::CycleDetection_(string &id, string &parent, unordered_map<string, bool> &visited, vector<string> &ids,
@@ -1022,7 +1022,7 @@ bool TrojanMap::CycleDetection_(string &id, string &parent, unordered_map<string
     } else if (visited[nb_id] && nb_id != parent) {
       ids.push_back(nb_id);
       vv.push_back(ids);
-      ids.clear();
+      CreateAnimation(vv);
       return true;
     }
   }
