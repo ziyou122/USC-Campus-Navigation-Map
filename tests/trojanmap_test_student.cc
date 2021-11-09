@@ -234,7 +234,7 @@ TEST(TrojanMapTest, DeliveringTrojan_1) {
   TrojanMap m;
   vector<string> location;
   location = m.ReadLocationsFromCSVFile(
-      "/home/student/2021Spring_TrojanMap/final-project-HaoxinMa/input/topologicalsort_dependencies.csv");
+      "/home/student/2021Spring_TrojanMap/final-project-HaoxinMa/input/topologicalsort_locations.csv");
   vector<vector<string>> dep;
   dep = m.ReadDependenciesFromCSVFile(
       "/home/student/2021Spring_TrojanMap/final-project-HaoxinMa/input/topologicalsort_dependencies.csv");
